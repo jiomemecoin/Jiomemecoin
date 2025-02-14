@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - Jio Meme Coin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url('https://assets.onecompiler.app/42t6e3qhm/4393bd3pv/1000154382.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .balance-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-title {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .balance-amount {
+            font-size: 3em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 20px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .coin-icon {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+            margin-right: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        .wallet-connect {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #FF9800;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            animation: pulse 2s infinite;
+        }
+
+        .connect-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            margin-top: 20px;
+            cursor: not-allowed;
+            opacity: 0.8;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .connect-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+        }
+
+        .nav-button {
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shine {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: #4CAF50;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float-up 3s ease-out infinite;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100%) scale(0); opacity: 0.6; }
+            100% { transform: translateY(-100%) scale(1); opacity: 0; }
+        }
+
+        .wallet-description {
+            color: #666;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="balance-card">
+            <div class="particles" id="particles"></div>
+            <h2 class="balance-title">Total Balance</h2>
+            <div class="balance-amount">
+                <img src="https://assets.onecompiler.app/42t6e3qhm/4393dm7hx/1000154383.png" alt="Coin" class="coin-icon">
+                <span id="balanceDisplay">0</span>
+            </div>
+        </div>
+
+        <div class="wallet-connect">
+            <span class="coming-soon-badge">Coming Soon</span>
+            <h2>Connect Your Wallet</h2>
+            <p class="wallet-description">
+                Connect your crypto wallet to transfer your Jio Meme Coins
+            </p>
+            <button class="connect-btn">Connect Wallet</button>
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <button class="nav-button" onclick="location.href='home.html'">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-button" onclick="location.href='task.html'">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">Tasks</span>
+        </button>
+        <button class="nav-button" onclick="location.href='Friends.html'">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Friends</span>
+        </button>
+        <button class="nav-button active">
+            <span class="nav-icon">💰</span>
+            <span class="nav-text">Wallet</span>
+        </button>
+    </nav>
+
+    <script>
+        // Get balance from localStorage
+        const balance = parseInt(localStorage.getItem('balance')) || 0;
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        
+        // Animate balance counting up
+        let currentDisplay = 0;
+        const duration = 2000; // 2 seconds
+        const steps = 60;
+        const increment = balance / steps;
+        const interval = duration / steps;
+
+        const counter = setInterval(() => {
+            currentDisplay += increment;
+            if (currentDisplay >= balance) {
+                currentDisplay = balance;
+                clearInterval(counter);
+            }
+            balanceDisplay.textContent = Math.floor(currentDisplay);
+        }, interval);
+
+        // Create floating particles
+        function createParticle() {
+            const particles = document.getElementById('particles');
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random size between 5 and 10 pixels
+            const size = Math.random() * 5 + 5;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Random horizontal position
+            particle.style.left = `${Math.random() * 100}%`;
+            
+            particles.appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                particle.remove();
+            }, 3000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Disable wallet connect button
+        document.querySelector('.connect-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Wallet connection feature coming soon!');
+        });
+
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Add pop animation
+                this.style.animation = 'navPop 0.3s ease';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>

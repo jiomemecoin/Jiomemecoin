@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - Jio Meme Coin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url('https://assets.onecompiler.app/42t6e3qhm/4393bd3pv/1000154382.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .reward {
+            color: #4CAF50;
+            font-size: 0.9em;
+        }
+
+        .follow-btn {
+            background: #1DA1F2;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+
+        .follow-btn:hover {
+            background: #1991db;
+        }
+
+        .claim-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .claim-btn:hover {
+            background: #45a049;
+        }
+
+        .claim-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .verification-progress {
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 2px;
+            transition: width 5s linear;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+        }
+
+        .nav-button {
+            padding: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .completed {
+            color: #4CAF50;
+            animation: checkmark 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="task-card">
+            <div class="task-info">
+                <div class="task-title">Follow on Twitter</div>
+                <div class="reward">Reward: 50 coins</div>
+                <div class="verification-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <button class="follow-btn" onclick="startTask('twitter', 'https://twitter.com/jiomemecoin')">Follow</button>
+            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+        </div>
+
+        <div class="task-card">
+            <div class="task-info">
+                <div class="task-title">Follow on Instagram</div>
+                <div class="reward">Reward: 50 coins</div>
+                <div class="verification-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <button class="follow-btn" onclick="startTask('instagram', 'https://instagram.com/jiomemecoin')">Follow</button>
+            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+        </div>
+
+        <div class="task-card">
+            <div class="task-info">
+                <div class="task-title">Join Telegram Channel</div>
+                <div class="reward">Reward: 50 coins</div>
+                <div class="verification-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <button class="follow-btn" onclick="startTask('telegram', 'https://t.me/jiomemecoin')">Join</button>
+            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+        </div>
+
+        <div class="task-card">
+            <div class="task-info">
+                <div class="task-title">Subscribe on YouTube</div>
+                <div class="reward">Reward: 50 coins</div>
+                <div class="verification-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <button class="follow-btn" onclick="startTask('youtube', 'https://youtube.com/@jiomemecoin')">Subscribe</button>
+            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <button class="nav-button" onclick="location.href='home.html'">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-button active">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">Tasks</span>
+        </button>
+        <button class="nav-button" onclick="location.href='Friends.html'">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Friends</span>
+        </button>
+        <button class="nav-button" onclick="location.href='wallet.html'">
+            <span class="nav-icon">💰</span>
+            <span class="nav-text">Wallet</span>
+        </button>
+    </nav>
+
+    <script>
+        // Initialize balance from localStorage or parent window
+        let balance = parseInt(localStorage.getItem('balance')) || 0;
+        
+        function startTask(platform, url) {
+            // Open social media link in new tab
+            window.open(url, '_blank');
+            
+            // Get the task card elements
+            const taskCard = event.target.closest('.task-card');
+            const progressContainer = taskCard.querySelector('.verification-progress');
+            const progressBar = taskCard.querySelector('.progress-bar');
+            const claimButton = taskCard.querySelector('.claim-btn');
+            
+            // Show and animate progress bar
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            // Start progress animation
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+            }, 100);
+
+            // Enable claim button after 5 seconds
+            setTimeout(() => {
+                claimButton.disabled = false;
+                progressContainer.style.display = 'none';
+            }, 5000);
+        }
+
+        function claimReward(button, amount) {
+            const taskCard = button.closest('.task-card');
+            
+            // Disable the button and update text
+            button.disabled = true;
+            button.textContent = '✓ Claimed';
+            button.classList.add('completed');
+            
+            // Update balance
+            balance += amount;
+            localStorage.setItem('balance', balance.toString());
+            
+            // Update balance display in home.html if it's open
+            try {
+                if (window.opener && !window.opener.closed) {
+                    const homeBalance = window.opener.document.getElementById('balance');
+                    if (homeBalance) {
+                        homeBalance.textContent = balance;
+                        window.opener.balance = balance;
+                    }
+                }
+            } catch (e) {
+                console.log('Could not update parent window balance');
+            }
+            
+            // Show reward notification
+            showRewardNotification(amount);
+
+            // Disable follow button
+            const followButton = taskCard.querySelector('.follow-btn');
+            followButton.disabled = true;
+            followButton.style.background = '#cccccc';
+            
+            // Save task completion status
+            localStorage.setItem(`task_${taskCard.querySelector('.task-title').textContent}`, 'completed');
+        }
+        
+        function showRewardNotification(amount) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(76, 175, 80, 0.9);
+                color: white;
+                padding: 15px 30px;
+                border-radius: 25px;
+                font-weight: bold;
+                animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+                z-index: 1000;
+            `;
+            notification.textContent = `+${amount} coins earned! 🎉`;
+            document.body.appendChild(notification);
+            
+            // Remove notification after animation
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        // Add animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideDown {
+                from { transform: translate(-50%, -100%); }
+                to { transform: translate(-50%, 0); }
+            }
+            @keyframes fadeOut {
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Check and restore completed tasks on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskCards = document.querySelectorAll('.task-card');
+            taskCards.forEach(card => {
+                const taskTitle = card.querySelector('.task-title').textContent;
+                if (localStorage.getItem(`task_${taskTitle}`) === 'completed') {
+                    const claimBtn = card.querySelector('.claim-btn');
+                    const followBtn = card.querySelector('.follow-btn');
+                    
+                    claimBtn.disabled = true;
+                    claimBtn.textContent = '✓ Claimed';
+                    claimBtn.classList.add('completed');
+                    
+                    followBtn.disabled = true;
+                    followBtn.style.background = '#cccccc';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

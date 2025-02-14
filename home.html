@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jio Meme Coin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url('https://assets.onecompiler.app/42t6e3qhm/4393bd3pv/1000154382.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            animation: pulse 2s infinite;
+        }
+
+        .balance-container {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .tap-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .tap-button {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #FFD700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.1s;
+            animation: float 3s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .tap-button img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .tap-button:active {
+            transform: scale(0.95);
+        }
+
+        .tap-info {
+            margin-top: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tap-stat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin: 5px 0;
+        }
+
+        .tap-value {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .coin-popup {
+            position: absolute;
+            color: #4CAF50;
+            font-weight: bold;
+            pointer-events: none;
+            animation: coinFloat 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        .timer-container {
+            margin-top: 10px;
+            display: none;
+            text-align: center;
+        }
+
+        .timer {
+            color: #FF9800;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .refill-progress {
+            width: 100%;
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .refill-bar {
+            width: 0%;
+            height: 100%;
+            background: #FF9800;
+            border-radius: 2px;
+            transition: width linear;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 0.9em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button.active {
+            color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .nav-button:not(.active):hover {
+            color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .nav-icon {
+            font-size: 1.5em;
+            margin-bottom: 2px;
+        }
+
+        .nav-text {
+            font-size: 0.8em;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes navPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes coinFloat {
+            0% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="balance-container">
+        <h2>Balance: <span id="balance">0</span> coins</h2>
+        <p>Daily Earnings: 500 coins</p>
+    </div>
+
+    <div class="tap-container">
+        <button class="tap-button" id="tapButton">
+            <img src="https://assets.onecompiler.app/42t6e3qhm/4393dm7hx/1000154383.png" alt="Tap Coin">
+        </button>
+        <div class="tap-info">
+            <div class="tap-stat">
+                <span>Taps Left:</span>
+                <span class="tap-value" id="tapsLeft">500</span>
+            </div>
+            <div class="tap-stat">
+                <span>Reward:</span>
+                <span class="tap-value">1 coin per tap</span>
+            </div>
+            <div class="timer-container" id="timerContainer">
+                <div class="timer" id="timer">Refill in: 3:00:00</div>
+                <div class="refill-progress">
+                    <div class="refill-bar" id="refillBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <button class="nav-button active">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-button" onclick="location.href='task.html'">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">Tasks</span>
+        </button>
+        <button class="nav-button" onclick="location.href='Friends.html'">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Friends</span>
+        </button>
+        <button class="nav-button" onclick="location.href='wallet.html'">
+            <span class="nav-icon">💰</span>
+            <span class="nav-text">Wallet</span>
+        </button>
+    </nav>
+
+    <script>
+        let balance = parseInt(localStorage.getItem('balance')) || 0;
+        let tapsLeft = parseInt(localStorage.getItem('tapsLeft')) || 500;
+        let refillTime = localStorage.getItem('refillTime');
+        const balanceDisplay = document.getElementById('balance');
+        const tapsLeftDisplay = document.getElementById('tapsLeft');
+        const tapButton = document.getElementById('tapButton');
+        const timerContainer = document.getElementById('timerContainer');
+        const timerDisplay = document.getElementById('timer');
+        const refillBar = document.getElementById('refillBar');
+
+        // Update initial displays
+        balanceDisplay.textContent = balance;
+        tapsLeftDisplay.textContent = tapsLeft;
+
+        // Check if we're waiting for a refill
+        if (refillTime) {
+            const remainingTime = new Date(refillTime) - new Date();
+            if (remainingTime > 0) {
+                startRefillTimer(remainingTime);
+            } else {
+                refillTaps();
+            }
+        }
+
+        tapButton.addEventListener('click', () => {
+            if (tapsLeft > 0) {
+                // Create coin popup
+                const popup = document.createElement('div');
+                popup.className = 'coin-popup';
+                popup.textContent = '+1';
+                popup.style.left = '50%';
+                popup.style.top = '50%';
+                tapButton.appendChild(popup);
+
+                // Remove popup after animation
+                setTimeout(() => popup.remove(), 1000);
+
+                // Shake taps counter
+                tapsLeftDisplay.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    tapsLeftDisplay.style.animation = '';
+                }, 500);
+
+                balance++;
+                tapsLeft--;
+                balanceDisplay.textContent = balance;
+                tapsLeftDisplay.textContent = tapsLeft;
+                
+                // Save to localStorage
+                localStorage.setItem('balance', balance.toString());
+                localStorage.setItem('tapsLeft', tapsLeft.toString());
+                
+                // Add tap animation
+                tapButton.style.animation = 'none';
+                tapButton.offsetHeight; // Trigger reflow
+                tapButton.style.animation = 'float 3s infinite';
+
+                // Check if taps are depleted
+                if (tapsLeft === 0) {
+                    startRefillTimer(3 * 60 * 60 * 1000); // 3 hours in milliseconds
+                }
+            }
+        });
+
+        function startRefillTimer(duration) {
+            const startTime = new Date();
+            const endTime = new Date(startTime.getTime() + duration);
+            
+            localStorage.setItem('refillTime', endTime.toISOString());
+            timerContainer.style.display = 'block';
+            tapButton.disabled = true;
+            tapButton.style.opacity = '0.5';
+
+            function updateTimer() {
+                const now = new Date();
+                const remainingTime = endTime - now;
+                
+                if (remainingTime <= 0) {
+                    refillTaps();
+                    return;
+                }
+
+                // Update progress bar
+                const progress = 100 - (remainingTime / duration * 100);
+                refillBar.style.width = `${progress}%`;
+
+                // Update timer display
+                const hours = Math.floor(remainingTime / (60 * 60 * 1000));
+                const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
+                const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+                timerDisplay.textContent = `Refill in: ${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                requestAnimationFrame(updateTimer);
+            }
+
+            updateTimer();
+        }
+
+        function refillTaps() {
+            tapsLeft = 500;
+            tapsLeftDisplay.textContent = tapsLeft;
+            localStorage.setItem('tapsLeft', tapsLeft.toString());
+            localStorage.removeItem('refillTime');
+            
+            timerContainer.style.display = 'none';
+            tapButton.disabled = false;
+            tapButton.style.opacity = '1';
+
+            // Add refill animation
+            tapsLeftDisplay.style.color = '#4CAF50';
+            tapsLeftDisplay.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+                tapsLeftDisplay.style.animation = '';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

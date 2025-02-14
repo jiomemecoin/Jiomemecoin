@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Verification - Jio Meme Coin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url('https://assets.onecompiler.app/42t6e3qhm/4393bd3pv/1000154382.webp') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .verification-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .verification-steps {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: background 0.3s;
+        }
+
+        .step.completed {
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #ddd;
+            font-size: 14px;
+        }
+
+        .step.completed .step-icon {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .step-text {
+            flex: 1;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .step.completed .step-text {
+            color: #4CAF50;
+        }
+
+        .continue-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: none;
+        }
+
+        .continue-btn:hover {
+            background: #45a049;
+        }
+
+        .continue-btn.visible {
+            display: inline-block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-top: 2px solid #666;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <img src="https://assets.onecompiler.app/42t6e3qhm/4393dm7hx/1000154383.png" alt="Jio Meme Coin Logo" class="logo">
+        <h1>Account Verification</h1>
+        <div class="verification-steps">
+            <div class="step" id="step1">
+                <div class="step-icon">
+                    <div class="loading"></div>
+                </div>
+                <div class="step-text">Checking account age...</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-icon">
+                    <div class="loading"></div>
+                </div>
+                <div class="step-text">Analyzing activity...</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-icon">
+                    <div class="loading"></div>
+                </div>
+                <div class="step-text">Verifying Telegram premium...</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-icon">
+                    <div class="loading"></div>
+                </div>
+                <div class="step-text">Finalizing verification...</div>
+            </div>
+        </div>
+        <button class="continue-btn" id="continueBtn" onclick="proceedToHome()">Continue to App</button>
+    </div>
+
+    <script>
+        // Check if user has already completed verification
+        if (localStorage.getItem('verificationComplete')) {
+            window.location.href = 'home.html';
+        }
+
+        const steps = [
+            { id: 'step1', time: 2000 },
+            { id: 'step2', time: 3000 },
+            { id: 'step3', time: 2500 },
+            { id: 'step4', time: 1500 }
+        ];
+
+        let currentStep = 0;
+
+        function completeStep(stepElement) {
+            stepElement.classList.add('completed');
+            const icon = stepElement.querySelector('.step-icon');
+            icon.innerHTML = '✓';
+        }
+
+        function processNextStep() {
+            if (currentStep < steps.length) {
+                const step = steps[currentStep];
+                const stepElement = document.getElementById(step.id);
+                
+                setTimeout(() => {
+                    completeStep(stepElement);
+                    currentStep++;
+                    processNextStep();
+                }, step.time);
+            } else {
+                // All steps completed
+                const continueBtn = document.getElementById('continueBtn');
+                continueBtn.classList.add('visible');
+            }
+        }
+
+        function proceedToHome() {
+            // Mark verification as complete
+            localStorage.setItem('verificationComplete', 'true');
+            // Initialize other necessary data
+            if (!localStorage.getItem('balance')) {
+                localStorage.setItem('balance', '0');
+            }
+            if (!localStorage.getItem('tapsLeft')) {
+                localStorage.setItem('tapsLeft', '500');
+            }
+            // Redirect to home page
+            window.location.href = 'home.html';
+        }
+
+        // Start verification process
+        processNextStep();
+    </script>
+</body>
+</html>
