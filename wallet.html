@@ -165,6 +165,87 @@
             color: #666;
             margin: 15px 0;
         }
+
+        .presale-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .presale-btn {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .presale-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .presale-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            text-align: left;
+        }
+
+        .presale-details.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            min-width: 60px;
+        }
+
+        .countdown-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #FF6B6B;
+        }
+
+        .countdown-label {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .presale-heading {
+            margin-bottom: 15px;
+        }
+
+        .presale-list {
+            list-style: none;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -173,8 +254,42 @@
             <div class="particles" id="particles"></div>
             <h2 class="balance-title">Total Balance</h2>
             <div class="balance-amount">
-                <img src="https://assets.onecompiler.app/42t6e3qhm/4393dm7hx/1000154383.png" alt="Coin" class="coin-icon">
+                <img src="https://assets.onecompiler.app/42t6e3qhm/4395r2mzp/1000158507.png" alt="Coin" class="coin-icon">
                 <span id="balanceDisplay">0</span>
+            </div>
+        </div>
+
+        <div class="presale-card">
+            <button class="presale-btn" onclick="togglePresaleDetails()">
+                🚀 Join Pre-Sale
+            </button>
+            <div class="presale-details" id="presaleDetails">
+                <h3 class="presale-heading">Pre-Sale Details</h3>
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="days">30</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="hours">24</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="minutes">00</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="seconds">00</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+                <ul class="presale-list">
+                    <li>🎯 Price: $0.05 per token</li>
+                    <li>💎 Minimum Buy: 50 Ton</li>
+                    <li>🎁 Bonus: 25% extra tokens</li>
+                    <li>⏰ Duration: Limited time only</li>
+                    <li>🔒 Vesting: No lock period</li>
+                </ul>
             </div>
         </div>
 
@@ -268,6 +383,36 @@
                 }, 300);
             });
         });
+
+        function togglePresaleDetails() {
+            const details = document.getElementById('presaleDetails');
+            details.classList.toggle('show');
+        }
+
+        // Set the date we're counting down to (30 days from now)
+        const countDownDate = new Date();
+        countDownDate.setDate(countDownDate.getDate() + 30);
+
+        // Update the countdown every second
+        const countdownTimer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("presaleDetails").innerHTML = "<h3>Pre-Sale Ended</h3>";
+            }
+        }, 1000);
     </script>
 </body>
 </html>
