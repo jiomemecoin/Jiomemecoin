@@ -248,6 +248,37 @@
             line-height: 1.6;
         }
 
+        .daily-reward-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .claim-reward-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .claim-reward-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .next-claim {
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
         @media screen and (max-width: 480px) {
             .balance-card, .presale-card, .wallet-connect {
                 padding: 15px;
@@ -271,8 +302,12 @@
             }
         }
     </style>
+    <!-- Add TON Connect script -->
+    <script src="https://unpkg.com/@tonconnect/ui@1.0.0-beta.6/dist/tonconnect-ui.min.js"></script>
 </head>
 <body>
+    <!-- Add notification container -->
+    <div id="notification" class="notification"></div>
     <div class="container">
         <div class="balance-card">
             <div class="particles" id="particles"></div>
@@ -392,10 +427,73 @@
         // Create particles periodically
         setInterval(createParticle, 300);
 
-        // Disable wallet connect button
-        document.querySelector('.connect-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Wallet connection feature coming soon!');
+        const connectBtn = document.querySelector('.connect-btn');
+        
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.toggle('error', isError);
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        connectBtn.addEventListener('click', async () => {
+            try {
+                // Check if TON wallet is available
+                if (window.tonProtocolVersion || window.ton) {
+                    const provider = window.ton;
+                    if (provider) {
+                        try {
+                            // Request wallet connection
+                            const accounts = await provider.send('ton_requestAccounts');
+                            const account = accounts[0]; // Get the first account
+                            
+                            showNotification('TON Wallet connected successfully! 🎉');
+                            
+                            // Update button state
+                            connectBtn.textContent = 'Wallet Connected';
+                            connectBtn.style.background = '#4CAF50';
+                            
+                            // Store the connected account
+                            localStorage.setItem('connectedWallet', account);
+                            
+                            // You can add additional wallet interaction here
+                            console.log('Connected account:', account);
+                        } catch (err) {
+                            showNotification('Connection rejected by user', true);
+                        }
+                    } else {
+                        showNotification('Please install TON Wallet extension', true);
+                        window.open('https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd', '_blank');
+                    }
+                } else {
+                    showNotification('TON Wallet not found. Please install it!', true);
+                    window.open('https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd', '_blank');
+                }
+            } catch (error) {
+                showNotification('Failed to connect wallet: ' + error.message, true);
+                console.error('Wallet connection error:', error);
+            }
+        });
+
+        // Check if wallet was previously connected
+        const savedWallet = localStorage.getItem('connectedWallet');
+        if (savedWallet) {
+            connectBtn.textContent = 'Wallet Connected';
+            connectBtn.style.background = '#4CAF50';
+        }
+
+        // Listen for wallet disconnect
+        window.addEventListener('ton_accounts', function(e) {
+            if (!e.detail.length) {
+                showNotification('Wallet disconnected! ❌', true);
+                connectBtn.textContent = 'Connect Wallet';
+                connectBtn.style.background = '#1a73e8';
+                localStorage.removeItem('connectedWallet');
+            }
         });
 
         document.querySelectorAll('.nav-button').forEach(button => {
