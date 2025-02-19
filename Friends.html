@@ -183,7 +183,7 @@
             <p>Share your unique invite link:</p>
             <label for="inviteLink" class="visually-hidden">Your invite link</label>
             <input type="text" id="inviteLink" class="invite-link" 
-                   value="https://jiomemecoin.com/invite?ref=123" readonly
+                   value="https://t.me/Jiomeme_coinbot/invite?ref=123" readonly
                    aria-label="Your invite link">
             <button class="share-button" onclick="shareInvite()">
                 Share Invite Link
@@ -223,19 +223,124 @@
         let balance = parseInt(localStorage.getItem('balance')) || 0;
         const referredFriends = JSON.parse(localStorage.getItem('referredFriends')) || [];
 
+        // Enhanced referral code generation
+        function generateReferralCode() {
+            const timestamp = Date.now().toString(36);
+            const randomPart = Math.random().toString(36).substring(2, 8);
+            return `JIO-${timestamp.toUpperCase()}-${randomPart.toUpperCase()}`.slice(0, 16);
+        }
+
+        // Generate or retrieve user's unique referral code
+        let referralCode = localStorage.getItem('referralCode');
+        if (!referralCode) {
+            referralCode = generateReferralCode();
+            localStorage.setItem('referralCode', referralCode);
+        }
+
+        // Set the invite link with user's referral code
+        const inviteLink = document.getElementById('inviteLink');
+        inviteLink.value = `https://t.me/Jiomeme_coinbot/invite/${referralCode}`;
+
         function shareInvite() {
             const inviteLink = document.getElementById('inviteLink').value;
+            const shareText = `🚀 Join Jio Meme Coin and earn together! 
+
+Referral Code: ${referralCode}
+Invite Link: ${inviteLink}
+
+Earn 30 coins for each friend you invite! 💰`;
+            
+            // Enhanced sharing with multiple methods
             if (navigator.share) {
+                // Native share on mobile
                 navigator.share({
-                    title: 'Join me on Jio Meme Coin!',
-                    text: 'Join me on Jio Meme Coin and we both get 30 coins! 🚀',
+                    title: 'Invite Friends to Jio Meme Coin',
+                    text: shareText,
                     url: inviteLink
-                }).catch(error => console.log('Error sharing:', error));
+                }).catch(error => fallbackShare(shareText));
             } else {
-                navigator.clipboard.writeText(inviteLink)
-                    .then(() => showNotification('Invite link copied to clipboard!'))
-                    .catch(err => console.log('Error copying text:', err));
+                // Fallback for desktop
+                fallbackShare(shareText);
             }
+        }
+
+        function fallbackShare(shareText) {
+            // Copy to clipboard
+            navigator.clipboard.writeText(shareText)
+                .then(() => {
+                    // Show copied notification
+                    const rewardNotification = document.getElementById('rewardNotification');
+                    rewardNotification.textContent = '📋 Invite link copied to clipboard!';
+                    rewardNotification.style.display = 'block';
+                    
+                    // Open sharing options
+                    openSharingOptions();
+
+                    // Hide notification after 3 seconds
+                    setTimeout(() => {
+                        rewardNotification.style.display = 'none';
+                    }, 3000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+        }
+
+        function openSharingOptions() {
+            // Open common social media sharing links
+            const shareUrl = encodeURIComponent(`https://t.me/Jiomeme_coinbot/invite/${referralCode}`);
+            const shareText = encodeURIComponent('Join me on Jio Meme Coin and earn together! 🚀');
+            
+            const sharingOptions = [
+                { name: 'Telegram', url: `https://t.me/share/url?url=${shareUrl}&text=${shareText}` },
+                { name: 'WhatsApp', url: `https://wa.me/?text=${shareText} ${shareUrl}` },
+                { name: 'Twitter', url: `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}` }
+            ];
+
+            // Create sharing options modal
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.background = 'rgba(255,255,255,0.95)';
+            modal.style.padding = '20px';
+            modal.style.borderRadius = '15px';
+            modal.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+            modal.style.zIndex = '1000';
+            modal.style.textAlign = 'center';
+
+            const title = document.createElement('h3');
+            title.textContent = 'Share Invite';
+            modal.appendChild(title);
+
+            sharingOptions.forEach(platform => {
+                const button = document.createElement('button');
+                button.textContent = `Share on ${platform.name}`;
+                button.style.display = 'block';
+                button.style.width = '100%';
+                button.style.padding = '10px';
+                button.style.margin = '10px 0';
+                button.style.background = '#4CAF50';
+                button.style.color = 'white';
+                button.style.border = 'none';
+                button.style.borderRadius = '20px';
+                button.onclick = () => {
+                    window.open(platform.url, '_blank');
+                    modal.remove();
+                };
+                modal.appendChild(button);
+            });
+
+            const closeButton = document.createElement('button');
+            closeButton.textContent = 'Close';
+            closeButton.style.background = 'none';
+            closeButton.style.color = '#666';
+            closeButton.style.border = 'none';
+            closeButton.onclick = () => modal.remove();
+            modal.appendChild(closeButton);
+
+            document.body.appendChild(modal);
         }
 
         function addFriend(name, joinDate, isRewarded = false) {
