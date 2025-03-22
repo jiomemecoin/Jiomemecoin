@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends - Jio Meme Coin</title>
+    <script src="https://telegram.org/js/telegram-widget.js?22"></script>
     <style>
         * {
             margin: 0;
@@ -173,20 +174,30 @@
             clip: rect(0, 0, 0, 0);
             border: 0;
         }
+
+        .telegram-login {
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .telegram-username {
+            color: #0088cc;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="invite-card">
             <h2>Invite Friends</h2>
+            <div class="telegram-login" id="telegram-login"></div>
             <p class="reward-info">🎁 Earn 30 Jio Meme Coins for each friend!</p>
             <p>Share your unique invite link:</p>
             <label for="inviteLink" class="visually-hidden">Your invite link</label>
-            <input type="text" id="inviteLink" class="invite-link" 
-                   value="https://t.me/Jiomeme_coinbot/invite?ref=123" readonly
+            <input type="text" id="inviteLink" class="invite-link" readonly
                    aria-label="Your invite link">
             <button class="share-button" onclick="shareInvite()">
-                Share Invite Link
+                Share Invite Link on Telegram
             </button>
         </div>
 
@@ -220,144 +231,72 @@
     </nav>
 
     <script>
+        let telegramUser = null;
         let balance = parseInt(localStorage.getItem('balance')) || 0;
         const referredFriends = JSON.parse(localStorage.getItem('referredFriends')) || [];
 
-        // Enhanced referral code generation
-        function generateReferralCode() {
-            const timestamp = Date.now().toString(36);
-            const randomPart = Math.random().toString(36).substring(2, 8);
-            return `JIO-${timestamp.toUpperCase()}-${randomPart.toUpperCase()}`.slice(0, 16);
+        // Initialize Telegram login widget
+        window.onload = function() {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = "https://telegram.org/js/telegram-widget.js?22";
+            script.setAttribute('data-telegram-login', 'YOUR_BOT_NAME'); // Replace with your bot name
+            script.setAttribute('data-size', 'large');
+            script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+            script.setAttribute('data-request-access', 'write');
+            document.getElementById('telegram-login').appendChild(script);
         }
 
-        // Generate or retrieve user's unique referral code
-        let referralCode = localStorage.getItem('referralCode');
-        if (!referralCode) {
-            referralCode = generateReferralCode();
-            localStorage.setItem('referralCode', referralCode);
+        // Telegram authentication callback
+        function onTelegramAuth(user) {
+            telegramUser = user;
+            localStorage.setItem('telegramUser', JSON.stringify(user));
+            generateInviteLink();
         }
 
-        // Set the invite link with user's referral code
-        const inviteLink = document.getElementById('inviteLink');
-        inviteLink.value = `https://t.me/Jiomeme_coinbot/invite/${referralCode}`;
+        function generateInviteLink() {
+            if (!telegramUser) {
+                showNotification('Please login with Telegram first!');
+                return;
+            }
+            const inviteLink = `https://jiomemecoin.com/invite?ref=${telegramUser.id}`;
+            document.getElementById('inviteLink').value = inviteLink;
+        }
 
         function shareInvite() {
-            const inviteLink = document.getElementById('inviteLink').value;
-            const shareText = `🚀 Join Jio Meme Coin and earn together! 
-
-Referral Code: ${referralCode}
-Invite Link: ${inviteLink}
-
-Earn 30 coins for each friend you invite! 💰`;
-            
-            // Enhanced sharing with multiple methods
-            if (navigator.share) {
-                // Native share on mobile
-                navigator.share({
-                    title: 'Invite Friends to Jio Meme Coin',
-                    text: shareText,
-                    url: inviteLink
-                }).catch(error => fallbackShare(shareText));
-            } else {
-                // Fallback for desktop
-                fallbackShare(shareText);
+            if (!telegramUser) {
+                showNotification('Please login with Telegram first!');
+                return;
             }
-        }
 
-        function fallbackShare(shareText) {
-            // Copy to clipboard
-            navigator.clipboard.writeText(shareText)
-                .then(() => {
-                    // Show copied notification
-                    const rewardNotification = document.getElementById('rewardNotification');
-                    rewardNotification.textContent = '📋 Invite link copied to clipboard!';
-                    rewardNotification.style.display = 'block';
-                    
-                    // Open sharing options
-                    openSharingOptions();
-
-                    // Hide notification after 3 seconds
-                    setTimeout(() => {
-                        rewardNotification.style.display = 'none';
-                    }, 3000);
-                })
-                .catch(err => {
-                    console.error('Failed to copy: ', err);
-                });
-        }
-
-        function openSharingOptions() {
-            // Open common social media sharing links
-            const shareUrl = encodeURIComponent(`https://t.me/Jiomeme_coinbot/invite/${referralCode}`);
-            const shareText = encodeURIComponent('Join me on Jio Meme Coin and earn together! 🚀');
+            const inviteLink = document.getElementById('inviteLink').value;
+            const text = `Join me on Jio Meme Coin and we both get 30 coins! 🚀\n${inviteLink}`;
             
-            const sharingOptions = [
-                { name: 'Telegram', url: `https://t.me/share/url?url=${shareUrl}&text=${shareText}` },
-                { name: 'WhatsApp', url: `https://wa.me/?text=${shareText} ${shareUrl}` },
-                { name: 'Twitter', url: `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}` }
-            ];
-
-            // Create sharing options modal
-            const modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.top = '50%';
-            modal.style.left = '50%';
-            modal.style.transform = 'translate(-50%, -50%)';
-            modal.style.background = 'rgba(255,255,255,0.95)';
-            modal.style.padding = '20px';
-            modal.style.borderRadius = '15px';
-            modal.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-            modal.style.zIndex = '1000';
-            modal.style.textAlign = 'center';
-
-            const title = document.createElement('h3');
-            title.textContent = 'Share Invite';
-            modal.appendChild(title);
-
-            sharingOptions.forEach(platform => {
-                const button = document.createElement('button');
-                button.textContent = `Share on ${platform.name}`;
-                button.style.display = 'block';
-                button.style.width = '100%';
-                button.style.padding = '10px';
-                button.style.margin = '10px 0';
-                button.style.background = '#4CAF50';
-                button.style.color = 'white';
-                button.style.border = 'none';
-                button.style.borderRadius = '20px';
-                button.onclick = () => {
-                    window.open(platform.url, '_blank');
-                    modal.remove();
-                };
-                modal.appendChild(button);
-            });
-
-            const closeButton = document.createElement('button');
-            closeButton.textContent = 'Close';
-            closeButton.style.background = 'none';
-            closeButton.style.color = '#666';
-            closeButton.style.border = 'none';
-            closeButton.onclick = () => modal.remove();
-            modal.appendChild(closeButton);
-
-            document.body.appendChild(modal);
+            // Open Telegram share dialog
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(text)}`, '_blank');
         }
 
-        function addFriend(name, joinDate, isRewarded = false) {
+        function addFriend(telegramData, joinDate, isRewarded = false) {
             const friendsList = document.getElementById('friendsList');
             const friendItem = document.createElement('div');
             friendItem.className = 'friend-item new';
             
-            const initials = name.split(' ').map(n => n[0]).join('');
+            const username = telegramData.username || telegramData.first_name;
             
             friendItem.innerHTML = `
-                <div class="friend-avatar">${initials}</div>
+                <div class="friend-avatar">
+                    ${telegramData.photo_url ? 
+                        `<img src="${telegramData.photo_url}" alt="${username}" style="width: 100%; height: 100%; border-radius: 50%;">` :
+                        username.charAt(0)}
+                </div>
                 <div class="friend-info">
-                    <div class="friend-name">${name}</div>
+                    <div class="friend-name">
+                        <span class="telegram-username">@${username}</span>
+                    </div>
                     <div class="friend-status">Joined: ${joinDate}</div>
                 </div>
                 ${!isRewarded ? `
-                    <button class="reward-badge" onclick="claimReferralReward('${name}', this)">
+                    <button class="reward-badge" onclick="claimReferralReward('${username}', this)">
                         Claim 30 coins
                     </button>
                 ` : '<span class="reward-badge rewarded-badge">Rewarded ✓</span>'}
@@ -407,16 +346,17 @@ Earn 30 coins for each friend you invite! 💰`;
             }, 3000);
         }
 
-        // Load existing referrals on page load
+        // Load existing referrals and check for Telegram login on page load
         document.addEventListener('DOMContentLoaded', () => {
-            referredFriends.forEach(friend => {
-                addFriend(friend.name, new Date(friend.date).toLocaleDateString(), friend.rewarded);
-            });
-            
-            // Add example friend if no referrals exist
-            if (referredFriends.length === 0) {
-                addFriend('John Doe', new Date().toLocaleDateString(), false);
+            const savedUser = localStorage.getItem('telegramUser');
+            if (savedUser) {
+                telegramUser = JSON.parse(savedUser);
+                generateInviteLink();
             }
+
+            referredFriends.forEach(friend => {
+                addFriend(friend.telegramData, new Date(friend.date).toLocaleDateString(), friend.rewarded);
+            });
         });
     </script>
 </body>
