@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends - Jio Meme Coin</title>
-    <script src="https://telegram.org/js/telegram-widget.js?22"></script>
     <style>
         * {
             margin: 0;
@@ -220,42 +219,20 @@
             border: 0;
         }
 
-        .telegram-login {
-            margin: 20px 0;
-            text-align: center;
+        .telegram-login,
+        .login-button,
+        .login-section,
+        .login-title,
+        .logout-button {
+            display: none;
         }
-        
-        .telegram-username {
-            color: #0088cc;
-            font-weight: bold;
+
+        .invite-steps, .invite-link-container {
+            display: block;
         }
 
         .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            padding: 10px;
-            background: rgba(0, 136, 204, 0.1);
-            border-radius: 8px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #0088cc;
-            color: white;
-            font-weight: bold;
-        }
-
-        .disabled-button {
-            opacity: 0.5;
-            cursor: not-allowed;
+            display: none;
         }
 
         .team-stats {
@@ -310,24 +287,23 @@
         .copy-button:hover {
             background: #006699;
         }
+
+        .disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="invite-card">
             <h2 class="invite-title">Invite Friends & Earn Coins</h2>
-            <div class="telegram-login" id="telegram-login">
-                <!-- Telegram login widget will be inserted here -->
-            </div>
-            <div id="userInfo" style="display: none;">
-                <!-- User info will be displayed here after login -->
-            </div>
             <p class="reward-info">🎁 Earn 30 Jio Meme Coins for each friend who joins!</p>
             
             <div class="invite-steps">
                 <div class="invite-step">
                     <span class="step-number">1</span>
-                    <span>Login with Telegram to get your unique invite link</span>
+                    <span>Get your unique invite link below</span>
                 </div>
                 <div class="invite-step">
                     <span class="step-number">2</span>
@@ -343,7 +319,7 @@
                 <p>Your unique invite link:</p>
                 <label for="inviteLink" class="visually-hidden">Your invite link</label>
                 <input type="text" id="inviteLink" class="invite-link" readonly 
-                       aria-label="Your invite link" placeholder="Login to get your invite link">
+                       aria-label="Your invite link" value="https://t.me/JioMemeCoinBot?start=ref_direct">
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button class="copy-button" onclick="copyInviteLink()" style="flex: 1;">
                         📋 Copy Link
@@ -399,128 +375,23 @@
     </nav>
 
     <script>
-        let telegramUser = null;
         let balance = parseInt(localStorage.getItem('balance')) || 0;
         const referredFriends = JSON.parse(localStorage.getItem('referredFriends')) || [];
 
-        // Initialize Telegram login widget
         window.onload = function() {
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = "https://telegram.org/js/telegram-widget.js?22";
-            script.setAttribute('data-telegram-login', 'JioMemeCoinBot'); // Your bot name
-            script.setAttribute('data-size', 'large');
-            script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-            script.setAttribute('data-request-access', 'write');
-            script.setAttribute('data-auth-url', window.location.href);
-            script.setAttribute('data-radius', '8');
-            document.getElementById('telegram-login').appendChild(script);
-
-            // Check for existing login
-            const savedUser = localStorage.getItem('telegramUser');
-            if (savedUser) {
-                const userData = JSON.parse(savedUser);
-                const authDate = parseInt(userData.auth_date) * 1000;
-                const now = Date.now();
-                
-                // Auto-login if session is less than 7 days old
-                if (now - authDate < 7 * 24 * 60 * 60 * 1000) {
-                    telegramUser = userData;
-                    showUserInfo(userData);
-                    generateInviteLink();
-                } else {
-                    localStorage.removeItem('telegramUser');
-                }
-            }
-
-            // Check URL parameters for Telegram auth data
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('id') && urlParams.has('auth_date')) {
-                const authData = {
-                    id: urlParams.get('id'),
-                    first_name: urlParams.get('first_name'),
-                    username: urlParams.get('username'),
-                    photo_url: urlParams.get('photo_url'),
-                    auth_date: urlParams.get('auth_date')
-                };
-                onTelegramAuth(authData);
-                // Clean URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        }
-
-        function showUserInfo(user) {
-            const userInfo = document.getElementById('userInfo');
-            const loginWidget = document.getElementById('telegram-login');
-            
-            userInfo.innerHTML = `
-                <div class="user-info">
-                    ${user.photo_url ? 
-                        `<img src="${user.photo_url}" alt="" class="user-avatar">` : 
-                        `<div class="user-avatar">${(user.username || user.first_name).charAt(0).toUpperCase()}</div>`}
-                    <span class="telegram-username">@${user.username || user.first_name}</span>
-                </div>
-            `;
-            
-            loginWidget.style.display = 'none';
-            userInfo.style.display = 'block';
-            
-            // Enable buttons
-            document.querySelector('.copy-button').classList.remove('disabled-button');
-            document.querySelector('.share-button').classList.remove('disabled-button');
-        }
-
-        // Updated Telegram authentication callback
-        function onTelegramAuth(user) {
-            telegramUser = user;
-            localStorage.setItem('telegramUser', JSON.stringify(user));
-            showUserInfo(user);
-            generateInviteLink();
-            
-            const username = user.username || user.first_name;
-            showNotification(`Welcome back, ${username}! 👋`);
-        }
-
-        function generateInviteLink() {
-            if (!telegramUser) {
-                showNotification('Please login with Telegram first!');
-                return;
-            }
-            // Generate a unique referral code using user ID and timestamp
-            const timestamp = Date.now();
-            const referralCode = btoa(`${telegramUser.id}-${timestamp}`).replace(/[^a-zA-Z0-9]/g, '');
-            const inviteLink = `https://t.me/JioMemeCoinBot?start=ref_${referralCode}`;
-            document.getElementById('inviteLink').value = inviteLink;
-            
-            // Save the referral code to localStorage
-            const referralCodes = JSON.parse(localStorage.getItem('referralCodes') || '{}');
-            referralCodes[referralCode] = {
-                userId: telegramUser.id,
-                username: telegramUser.username,
-                created: timestamp
-            };
-            localStorage.setItem('referralCodes', JSON.stringify(referralCodes));
+            referredFriends.forEach(friend => {
+                addFriend(friend.telegramData, friend.date, friend.rewarded);
+            });
+            updateTeamStats();
         }
 
         function shareInvite() {
-            if (!telegramUser) {
-                showNotification('Please login with Telegram first!');
-                return;
-            }
-
             const inviteLink = document.getElementById('inviteLink').value;
-            const username = telegramUser.username || telegramUser.first_name;
-            const text = `🚀 Join ${username} on Jio Meme Coin!\n\n💰 We both get 30 coins when you join!\n\n🔗 Join now:\n${inviteLink}`;
-            
-            // Open Telegram share dialog with formatted message
+            const text = `🚀 Join me on Jio Meme Coin!\n\n💰 We both get 30 coins when you join!\n\n🔗 Join now:\n${inviteLink}`;
             window.open(`https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(text)}`, '_blank');
         }
 
         function copyInviteLink() {
-            if (!telegramUser) {
-                showNotification('Please login with Telegram first!');
-                return;
-            }
             const inviteLink = document.getElementById('inviteLink');
             inviteLink.select();
             document.execCommand('copy');
@@ -533,39 +404,6 @@
             
             document.getElementById('totalReferrals').textContent = totalReferrals;
             document.getElementById('totalEarned').textContent = totalEarned;
-        }
-
-        function addFriend(telegramData, joinDate, isRewarded = false) {
-            const friendsList = document.getElementById('friendsList');
-            const friendItem = document.createElement('div');
-            friendItem.className = 'friend-item new';
-            
-            const username = telegramData.username || telegramData.first_name;
-            const joinDateObj = new Date(joinDate);
-            const daysSinceJoin = Math.floor((new Date() - joinDateObj) / (1000 * 60 * 60 * 24));
-            const level = daysSinceJoin >= 30 ? 'Gold Member' : daysSinceJoin >= 7 ? 'Silver Member' : 'New Member';
-            
-            friendItem.innerHTML = `
-                <div class="friend-avatar">
-                    ${telegramData.photo_url ? 
-                        `<img src="${telegramData.photo_url}" alt="${username}" style="width: 100%; height: 100%; border-radius: 50%;">` :
-                        username.charAt(0)}
-                </div>
-                <div class="friend-info">
-                    <div class="friend-name">
-                        <span class="telegram-username">@${username}</span>
-                    </div>
-                    <div class="friend-status">Joined: ${new Date(joinDate).toLocaleDateString()}</div>
-                    <div class="friend-level">👥 ${level}</div>
-                </div>
-                ${!isRewarded ? `
-                    <button class="reward-badge" onclick="claimReferralReward('${username}', this)">
-                        Claim 30 coins
-                    </button>
-                ` : '<span class="reward-badge rewarded-badge">Rewarded ✓</span>'}
-            `;
-            
-            friendsList.appendChild(friendItem);
         }
 
         function claimReferralReward(friendName, button) {
@@ -608,20 +446,34 @@
             }, 3000);
         }
 
-        // Load existing referrals and check for Telegram login on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedUser = localStorage.getItem('telegramUser');
-            if (savedUser) {
-                telegramUser = JSON.parse(savedUser);
-                generateInviteLink();
-            }
-
-            referredFriends.forEach(friend => {
-                addFriend(friend.telegramData, friend.date, friend.rewarded);
-            });
+        function addFriend(telegramData, joinDate, isRewarded = false) {
+            const friendsList = document.getElementById('friendsList');
+            const friendItem = document.createElement('div');
+            friendItem.className = 'friend-item new';
             
-            updateTeamStats();
-        });
+            const username = telegramData.username;
+            const joinDateObj = new Date(joinDate);
+            const daysSinceJoin = Math.floor((new Date() - joinDateObj) / (1000 * 60 * 60 * 24));
+            const level = daysSinceJoin >= 30 ? 'Gold Member' : daysSinceJoin >= 7 ? 'Silver Member' : 'New Member';
+            
+            friendItem.innerHTML = `
+                <div class="friend-avatar">@</div>
+                <div class="friend-info">
+                    <div class="friend-name">
+                        <span class="telegram-username">@${username}</span>
+                    </div>
+                    <div class="friend-status">Joined: ${new Date(joinDate).toLocaleDateString()}</div>
+                    <div class="friend-level">👥 ${level}</div>
+                </div>
+                ${!isRewarded ? `
+                    <button class="reward-badge" onclick="claimReferralReward('${username}', this)">
+                        Claim 30 coins
+                    </button>
+                ` : '<span class="reward-badge rewarded-badge">Rewarded ✓</span>'}
+            `;
+            
+            friendsList.appendChild(friendItem);
+        }
     </script>
 </body>
 </html>
