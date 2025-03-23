@@ -319,7 +319,8 @@
                 <p>Your unique invite link:</p>
                 <label for="inviteLink" class="visually-hidden">Your invite link</label>
                 <input type="text" id="inviteLink" class="invite-link" readonly 
-                       aria-label="Your invite link" value="https://t.me/JioMemeCoinBot?start=ref_direct">
+                       aria-label="Your invite link" value="https://t.me/Jiomeme_coinbot
+                       ">
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <button class="copy-button" onclick="copyInviteLink()" style="flex: 1;">
                         📋 Copy Link
@@ -342,13 +343,6 @@
                     <div class="stat-value" id="totalEarned">0</div>
                     <div class="stat-label">Total Coins Earned</div>
                 </div>
-            </div>
-        </div>
-
-        <div class="friends-list">
-            <h2>Your Referral Team</h2>
-            <div id="friendsList">
-                <!-- Friends will be added here dynamically -->
             </div>
         </div>
     </div>
@@ -379,9 +373,6 @@
         const referredFriends = JSON.parse(localStorage.getItem('referredFriends')) || [];
 
         window.onload = function() {
-            referredFriends.forEach(friend => {
-                addFriend(friend.telegramData, friend.date, friend.rewarded);
-            });
             updateTeamStats();
         }
 
@@ -406,35 +397,6 @@
             document.getElementById('totalEarned').textContent = totalEarned;
         }
 
-        function claimReferralReward(friendName, button) {
-            balance += 30;
-            localStorage.setItem('balance', balance.toString());
-            
-            try {
-                if (window.opener && !window.opener.closed) {
-                    const homeBalance = window.opener.document.getElementById('balance');
-                    if (homeBalance) {
-                        homeBalance.textContent = balance;
-                        window.opener.balance = balance;
-                    }
-                }
-            } catch (e) {
-                console.log('Could not update parent window balance');
-            }
-
-            button.parentElement.querySelector('.reward-badge').outerHTML = 
-                '<span class="reward-badge rewarded-badge">Rewarded ✓</span>';
-            
-            showNotification(`+30 coins earned for referring ${friendName}! 🎉`);
-            
-            const friend = referredFriends.find(f => f.telegramData.username === friendName || f.telegramData.first_name === friendName);
-            if (friend) {
-                friend.rewarded = true;
-                localStorage.setItem('referredFriends', JSON.stringify(referredFriends));
-                updateTeamStats();
-            }
-        }
-
         function showNotification(message) {
             const notification = document.getElementById('rewardNotification');
             notification.textContent = message;
@@ -444,35 +406,6 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
-        }
-
-        function addFriend(telegramData, joinDate, isRewarded = false) {
-            const friendsList = document.getElementById('friendsList');
-            const friendItem = document.createElement('div');
-            friendItem.className = 'friend-item new';
-            
-            const username = telegramData.username;
-            const joinDateObj = new Date(joinDate);
-            const daysSinceJoin = Math.floor((new Date() - joinDateObj) / (1000 * 60 * 60 * 24));
-            const level = daysSinceJoin >= 30 ? 'Gold Member' : daysSinceJoin >= 7 ? 'Silver Member' : 'New Member';
-            
-            friendItem.innerHTML = `
-                <div class="friend-avatar">@</div>
-                <div class="friend-info">
-                    <div class="friend-name">
-                        <span class="telegram-username">@${username}</span>
-                    </div>
-                    <div class="friend-status">Joined: ${new Date(joinDate).toLocaleDateString()}</div>
-                    <div class="friend-level">👥 ${level}</div>
-                </div>
-                ${!isRewarded ? `
-                    <button class="reward-badge" onclick="claimReferralReward('${username}', this)">
-                        Claim 30 coins
-                    </button>
-                ` : '<span class="reward-badge rewarded-badge">Rewarded ✓</span>'}
-            `;
-            
-            friendsList.appendChild(friendItem);
         }
     </script>
 </body>
