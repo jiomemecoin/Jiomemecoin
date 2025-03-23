@@ -132,21 +132,24 @@
             <p><b>UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo</b></p>
         </div>
 
-<div class="box">
-            <h2>1 TON = 500 Lion Coins</h2>
-            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=1000000000&text=LionCoin_1TON" class="buy-button">Buy Now</a>
+        <div class="box">
+            <h2>1 TON = 500 JIO</h2>
+            <p class="bonus-text">Basic Package</p>
+            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=1000000000&text=JIO_1TON" class="buy-button">Buy Now</a>
         </div>
 
         <div class="box">
-            <h2>2 TON = 1,000 Lion Coins</h2>
-            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=2000000000&text=LionCoin_2TON" class="buy-button">Buy Now</a>
+            <h2>2 TON = 1,000 JIO</h2>
+            <p class="bonus-text">+10% Bonus Tokens</p>
+            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=2000000000&text=JIO_2TON" class="buy-button">Buy Now</a>
         </div>
 
         <div class="box">
-            <h2>5 TON = 4,000 Lion Coins</h2>
-            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=5000000000&text=LionCoin_5TON" class="buy-button">Buy Now</a>
+            <h2>5 TON = 4,000 JIO</h2>
+            <p class="bonus-text">+60% Bonus Tokens</p>
+            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=5000000000&text=JIO_5TON" class="buy-button">Buy Now</a>
         </div>
-
+    </div>
 
     <nav class="navigation">
         <button class="nav-button" onclick="location.href='home.html'">
@@ -178,6 +181,35 @@
                 setTimeout(() => {
                     this.style.animation = '';
                 }, 300);
+            });
+        });
+
+        // Enhanced TON wallet integration
+        document.querySelectorAll('.buy-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tonUrl = this.getAttribute('href');
+                
+                // Try to open TON wallet directly
+                window.location.href = tonUrl;
+                
+                // Fallback mechanism - if TON wallet doesn't open after 1 second
+                setTimeout(() => {
+                    // Check if the user is still on the page
+                    if (document.visibilityState === 'visible') {
+                        // Alert the user that they might need to install the TON wallet
+                        if (confirm('TON wallet app not detected. Do you want to install the TON wallet?')) {
+                            // Redirect to TON wallet download page
+                            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                                window.location.href = 'https://apps.apple.com/app/ton-wallet/id1644368800';
+                            } else if (/Android/i.test(navigator.userAgent)) {
+                                window.location.href = 'https://play.google.com/store/apps/details?id=org.ton.wallet';
+                            } else {
+                                window.location.href = 'https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd';
+                            }
+                        }
+                    }
+                }, 1000);
             });
         });
     </script>
