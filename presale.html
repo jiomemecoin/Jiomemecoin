@@ -10,15 +10,21 @@
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
+            margin-bottom: 80px; /* Add space for the fixed navigation bar */
         }
         .container {
             margin-top: 50px;
+            padding-bottom: 20px;
         }
         .box {
             border: 2px solid white;
             padding: 20px;
             margin: 20px;
             border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .box:hover {
+            transform: translateY(-5px);
         }
         .buy-button {
             display: inline-block;
@@ -29,30 +35,374 @@
             font-weight: bold;
             text-decoration: none;
             border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .buy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        }
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: #111;
+            padding: 10px 0;
+            border-top: 1px solid #333;
+            z-index: 100;
+        }
+        .nav-button {
+            background: transparent;
+            border: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 0;
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            color: gold;
+        }
+        .nav-button:hover:not(.active) {
+            color: #ddd;
+        }
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .nav-text {
+            font-size: 0.8rem;
+        }
+        .tooltip {
+            position: relative;
+        }
+        .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: rgba(0,0,0,0.8);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* Animation classes */
+        .animate__animated {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+        .animate__pulse {
+            animation-name: pulse;
+        }
+        .animate__fadeInUp {
+            animation-name: fadeInUp;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 40px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        @keyframes navPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>jiomemecoin Pre-Sale</h1>
+        <h1>jiomemcoin Pre-Sale</h1>
         <p>Send payment to: <b>UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo</b></p>
 
         <div class="box">
-            <h2>1 TON = 500 Lion Coins</h2>
+            <h2>1 TON = 500 jio Coins</h2>
             <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=1000000000&text=LionCoin_1TON" class="buy-button">Buy Now</a>
         </div>
 
         <div class="box">
-            <h2>2 TON = 1,000 Lion Coins</h2>
+            <h2>2 TON = 1,000 jio Coins</h2>
             <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=2000000000&text=LionCoin_2TON" class="buy-button">Buy Now</a>
         </div>
 
         <div class="box">
-            <h2>5 TON = 4,000 Lion Coins</h2>
+            <h2>5 TON = 4,000 jio Coins</h2>
             <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=5000000000&text=LionCoin_5TON" class="buy-button">Buy Now</a>
         </div>
     </div>
 
+    <nav class="navigation">
+        <button class="nav-button tooltip" onclick="location.href='home.html'">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+            <span class="tooltiptext">Go to Home</span>
+        </button>
+        <button class="nav-button tooltip" onclick="location.href='task.html'">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">Tasks</span>
+            <span class="tooltiptext">Daily Tasks</span>
+        </button>
+        <button class="nav-button tooltip" onclick="location.href='Friends.html'">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Friends</span>
+            <span class="tooltiptext">Invite Friends</span>
+        </button>
+        <button class="nav-button active tooltip">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Presale</span>
+            <span class="tooltiptext">Buy JIO Tokens</span>
+        </button>
+        <button class="nav-button tooltip" onclick="location.href='wallet.html'">
+            <span class="nav-icon">💰</span>
+            <span class="nav-text">Wallet</span>
+            <span class="tooltiptext">Your Wallet</span>
+        </button>
+    </nav>
+
+    <script>
+        // Animation for nav buttons
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.animation = 'navPop 0.3s ease';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 300);
+            });
+        });
+
+        // Enhanced TON wallet integration
+        document.querySelectorAll('.buy-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tonUrl = this.getAttribute('href');
+                
+                // Visual feedback on click
+                this.classList.add('animate__animated', 'animate__pulse');
+                
+                // Try to open TON wallet directly
+                window.location.href = tonUrl;
+                
+                // Fallback mechanism - if TON wallet doesn't open after 1 second
+                setTimeout(() => {
+                    // Check if the user is still on the page
+                    if (document.visibilityState === 'visible') {
+                        // Alert the user that they might need to install the TON wallet
+                        if (confirm('TON wallet app not detected. Do you want to install the TON wallet?')) {
+                            // Redirect to TON wallet download page
+                            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                                window.location.href = 'https://apps.apple.com/app/ton-wallet/id1644368800';
+                            } else if (/Android/i.test(navigator.userAgent)) {
+                                window.location.href = 'https://play.google.com/store/apps/details?id=org.ton.wallet';
+                            } else {
+                                window.location.href = 'https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd';
+                            }
+                        }
+                    }
+                }, 1000);
+            });
+        });
+
+        // Copy wallet address to clipboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const walletAddressContainer = document.createElement('div');
+            walletAddressContainer.id = 'wallet-address-container';
+            walletAddressContainer.style.cursor = 'pointer';
+            walletAddressContainer.innerHTML = `
+                <p>Send payment to: <span id="wallet-address"><b>UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo</b></span></p>
+                <p style="font-size: 0.8rem; color: #aaa;">(Click to copy)</p>
+            `;
+            
+            // Replace the existing payment address paragraph
+            document.querySelector('.container p').replaceWith(walletAddressContainer);
+            
+            walletAddressContainer.addEventListener('click', function() {
+                const walletAddress = document.getElementById('wallet-address').textContent;
+                navigator.clipboard.writeText(walletAddress).then(() => {
+                    // Show copy confirmation
+                    const confirmation = document.createElement('div');
+                    confirmation.textContent = "Address copied!";
+                    confirmation.style.position = "fixed";
+                    confirmation.style.top = "50%";
+                    confirmation.style.left = "50%";
+                    confirmation.style.transform = "translate(-50%, -50%)";
+                    confirmation.style.background = "rgba(0,0,0,0.8)";
+                    confirmation.style.color = "white";
+                    confirmation.style.padding = "10px 20px";
+                    confirmation.style.borderRadius = "5px";
+                    confirmation.style.zIndex = "1000";
+                    document.body.appendChild(confirmation);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(confirmation);
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Countdown timer functionality
+        function updateCountdown() {
+            // Set the date we're counting down to (24 hours from now for demo)
+            const countDownDate = new Date().getTime() + (5 * 24 * 60 * 60 * 1000);
+            
+            // Update the count down every 1 second
+            const x = setInterval(function() {
+                // Get today's date and time
+                const now = new Date().getTime();
+                
+                // Find the distance between now and the count down date
+                const distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Format with leading zeros
+                const formattedDays = days < 10 ? '0' + days : days;
+                const formattedHours = hours < 10 ? '0' + hours : hours;
+                const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+                const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+                
+                // Display the result
+                document.getElementById("countdown-timer").innerHTML = 
+                    formattedDays + ":" + formattedHours + ":" + formattedMinutes + ":" + formattedSeconds;
+                
+                // If the count down is finished, update text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown-timer").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+        
+        // Initialize countdown
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create countdown timer element if it doesn't exist
+            if (!document.getElementById('countdown-timer')) {
+                const timerContainer = document.createElement('div');
+                timerContainer.className = 'box';
+                timerContainer.innerHTML = `
+                    <h2>Presale Ends In:</h2>
+                    <div id="countdown-timer" style="font-size: 2rem; font-weight: bold;">00:00:00:00</div>
+                `;
+                document.querySelector('.container').appendChild(timerContainer);
+                updateCountdown();
+            }
+        });
+        
+        // Add animation on scroll effect for boxes
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.box').forEach(box => {
+                observer.observe(box);
+            });
+        });
+
+        // Add device detection for better mobile experience
+        function isMobileDevice() {
+            return (window.innerWidth <= 768) || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // Adjust UI elements for mobile
+        function optimizeForMobile() {
+            if (isMobileDevice()) {
+                // Adjust UI for mobile
+                document.querySelectorAll('.buy-button').forEach(btn => {
+                    btn.style.marginTop = "25px";
+                });
+                
+                // Add "Tap Feedback" for better UX
+                document.querySelectorAll('.buy-button, .nav-button').forEach(element => {
+                    element.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.95)';
+                    });
+                    
+                    element.addEventListener('touchend', function() {
+                        this.style.transform = '';
+                    });
+                });
+                
+                // Add swipe gesture detection for navigation
+                let touchStartX = 0;
+                let touchEndX = 0;
+                
+                document.addEventListener('touchstart', e => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+                
+                document.addEventListener('touchend', e => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipeGesture();
+                });
+                
+                function handleSwipeGesture() {
+                    const SWIPE_THRESHOLD = 100;
+                    if (touchEndX < touchStartX - SWIPE_THRESHOLD) {
+                        // Swipe left - go to next page
+                        location.href = 'wallet.html';
+                    }
+                    if (touchEndX > touchStartX + SWIPE_THRESHOLD) {
+                        // Swipe right - go to previous page
+                        location.href = 'Friends.html';
+                    }
+                }
+                
+                // Add haptic feedback if supported
+                if ("vibrate" in navigator) {
+                    document.querySelectorAll('.buy-button').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            navigator.vibrate(50);
+                        });
+                    });
+                }
+            }
+        }
+        
+        // Run mobile optimizations
+        window.addEventListener('DOMContentLoaded', optimizeForMobile);
+        
+        // Fix viewport issues on orientation change
+        window.addEventListener('orientationchange', function() {
+            const metaViewport = document.querySelector('meta[name=viewport]');
+            metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+            
+            // Reset viewport after orientation change is complete
+            setTimeout(function() {
+                metaViewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+            }, 300);
+        });
+    </script>
 </body>
 </html>
