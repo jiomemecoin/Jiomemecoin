@@ -12,18 +12,24 @@
         }
 
         body {
-            background: url('https://assets.onecompiler.app/42t6e3qhm/4393bd3pv/1000154382.webp') no-repeat center center fixed;
+            background: linear-gradient(45deg, 
+                rgba(103, 58, 183, 0.85), 
+                rgba(123, 31, 162, 0.85), 
+                rgba(74, 20, 140, 0.85)), 
+                url('https://images.unsplash.com/photo-1642790106117-e829e14a795f?q=80&w=2070') no-repeat center center fixed;
             background-size: cover;
             font-family: Arial, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            color: #fff;
         }
 
         .header {
             text-align: center;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
         }
 
         .logo {
@@ -35,11 +41,14 @@
 
         .balance-container {
             text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
             margin: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 25px;
+            box-shadow: 0 8px 32px rgba(103, 58, 183, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: glow 3s infinite alternate;
         }
 
         .tap-container {
@@ -52,24 +61,31 @@
         }
 
         .tap-button {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            background: #FFD700;
-            border: none;
+            background: linear-gradient(145deg, #2E7D32, #1B5E20);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: all 0.3s ease;
             animation: float 3s infinite;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.5);
         }
 
         .tap-button img {
-            width: 80%;
-            height: 80%;
+            width: 70%;
+            height: 70%;
             object-fit: contain;
+        }
+
+        .tap-button:hover {
+            box-shadow: 0 12px 28px rgba(46, 125, 50, 0.7);
+            transform: translateY(-4px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
         }
 
         .tap-button:active {
@@ -79,11 +95,14 @@
         .tap-info {
             margin-top: 20px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 15px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 25px;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(103, 58, 183, 0.3);
         }
 
         .tap-stat {
@@ -96,16 +115,18 @@
 
         .tap-value {
             font-weight: bold;
-            color: #4CAF50;
+            color: #69F0AE;
+            text-shadow: 0 0 10px rgba(105, 240, 174, 0.5);
         }
 
         .coin-popup {
             position: absolute;
-            color: #4CAF50;
+            color: #69F0AE;
             font-weight: bold;
             pointer-events: none;
             animation: coinFloat 1s ease-out forwards;
             opacity: 0;
+            text-shadow: 0 0 10px rgba(105, 240, 174, 0.5);
         }
 
         .timer-container {
@@ -115,9 +136,10 @@
         }
 
         .timer {
-            color: #FF9800;
+            color: #69F0AE;
             font-weight: bold;
             font-size: 1.1em;
+            text-shadow: 0 0 10px rgba(105, 240, 174, 0.5);
         }
 
         .refill-progress {
@@ -132,7 +154,7 @@
         .refill-bar {
             width: 0%;
             height: 100%;
-            background: #FF9800;
+            background: linear-gradient(90deg, #2E7D32, #1B5E20);
             border-radius: 2px;
             transition: width linear;
         }
@@ -141,44 +163,55 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
             display: flex;
             justify-content: space-around;
             padding: 15px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -5px 25px rgba(103, 58, 183, 0.2);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .nav-button {
-            padding: 10px 20px;
-            border: none;
-            background: none;
+            padding: 12px;
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
             cursor: pointer;
-            color: #666;
-            font-size: 0.9em;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
             transition: all 0.3s ease;
+            gap: 5px;
+            color: white;
         }
-
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        
         .nav-button.active {
-            color: #4CAF50;
-            transform: translateY(-2px);
-        }
-
-        .nav-button:not(.active):hover {
-            color: #4CAF50;
-            transform: translateY(-2px);
+            background: linear-gradient(145deg, #673AB7, #4A148C);
+            border: none;
+            box-shadow: 0 5px 15px rgba(103, 58, 183, 0.3);
         }
 
         .nav-icon {
-            font-size: 1.5em;
-            margin-bottom: 2px;
+            font-size: 1.8em;
+            margin-bottom: 4px;
         }
 
         .nav-text {
-            font-size: 0.8em;
+            font-size: 0.75em;
+            font-weight: 500;
         }
 
         @keyframes pulse {
@@ -189,7 +222,7 @@
 
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
 
@@ -215,6 +248,15 @@
             25% { transform: translateX(-2px); }
             75% { transform: translateX(2px); }
         }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 8px 32px rgba(103, 58, 183, 0.2);
+            }
+            100% {
+                box-shadow: 0 8px 32px rgba(103, 58, 183, 0.4);
+            }
+        }
     </style>
 </head>
 <body>
@@ -225,7 +267,7 @@
 
     <div class="tap-container">
         <button class="tap-button" id="tapButton">
-            <img src="https://assets.onecompiler.app/42t6e3qhm/4395r2mzp/1000158507.png" alt="Tap Coin">
+            <img src="https://assets.onecompiler.app/42t6e3qhm/4393dm7hx/1000154383.png" alt="Tap Coin">
         </button>
         <div class="tap-info">
             <div class="tap-stat">
@@ -258,13 +300,13 @@
             <span class="nav-icon">👥</span>
             <span class="nav-text">Friends</span>
         </button>
+        <button class="nav-button" onclick="location.href='presale.html'">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Presale</span>
+        </button>
         <button class="nav-button" onclick="location.href='wallet.html'">
             <span class="nav-icon">💰</span>
             <span class="nav-text">Wallet</span>
-        </button>
-          <button class="nav-button active">
-            <span class="nav-icon">🚀</span>
-            <span class="nav-text">Presale</span>
         </button>
     </nav>
 
