@@ -3,215 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jio Meme Coin Pre-Sale</title>
+    <title>Lion Coin Pre-Sale</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background: url('https://assets.onecompiler.app/42t6e3qhm/4393bd3pv/1000154382.webp') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            background-color: black;
             color: white;
-        }
-
-        .container {
-            flex: 1;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            padding-bottom: 80px;
-        }
-
-        .box {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            color: #333;
         }
-
-        .wallet-address {
-            background: rgba(255, 255, 255, 0.95);
+        .container {
+            margin-top: 50px;
+        }
+        .box {
+            border: 2px solid white;
             padding: 20px;
-            border-radius: 20px;
-            margin: 20px 0;
-            color: #333;
-            word-break: break-all;
+            margin: 20px;
+            border-radius: 10px;
         }
-
         .buy-button {
             display: inline-block;
-            padding: 15px 30px;
-            margin-top: 15px;
-            background: #4CAF50;
-            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: gold;
+            color: black;
             font-weight: bold;
             text-decoration: none;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .buy-button:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-        }
-
-        .navigation {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            display: flex;
-            justify-content: space-around;
-            padding: 15px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-button {
-            padding: 10px 20px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            color: #666;
-            font-size: 0.9em;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-button.active {
-            color: #4CAF50;
-            transform: translateY(-2px);
-        }
-
-        .nav-button:not(.active):hover {
-            color: #4CAF50;
-            transform: translateY(-2px);
-        }
-
-        .nav-icon {
-            font-size: 1.5em;
-            margin-bottom: 2px;
-        }
-
-        .nav-text {
-            font-size: 0.8em;
-        }
-
-        h1 {
-            text-align: center;
-            color: white;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .bonus-text {
-            color: #4CAF50;
-            font-weight: bold;
-            margin-top: 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Jio Meme Coin Pre-Sale</h1>
-        
-        <div class="wallet-address">
-            <h3>Send payment to:</h3>
-            <p><b>UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo</b></p>
+        <h1>Lion Coin Pre-Sale</h1>
+        <p>Send payment to: <b>UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo</b></p>
+
+        <div class="box">
+            <h2>1 TON = 500 Lion Coins</h2>
+            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=1000000000&text=LionCoin_1TON" class="buy-button">Buy Now</a>
         </div>
 
         <div class="box">
-            <h2>1 TON = 500 JIO</h2>
-            <p class="bonus-text">Basic Package</p>
-            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=1000000000&text=JIO_1TON" class="buy-button">Buy Now</a>
+            <h2>2 TON = 1,000 Lion Coins</h2>
+            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=2000000000&text=LionCoin_2TON" class="buy-button">Buy Now</a>
         </div>
 
         <div class="box">
-            <h2>2 TON = 1,000 JIO</h2>
-            <p class="bonus-text">+10% Bonus Tokens</p>
-            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=2000000000&text=JIO_2TON" class="buy-button">Buy Now</a>
-        </div>
-
-        <div class="box">
-            <h2>5 TON = 4,000 JIO</h2>
-            <p class="bonus-text">+60% Bonus Tokens</p>
-            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=5000000000&text=JIO_5TON" class="buy-button">Buy Now</a>
+            <h2>5 TON = 4,000 Lion Coins</h2>
+            <a href="ton://transfer/UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo?amount=5000000000&text=LionCoin_5TON" class="buy-button">Buy Now</a>
         </div>
     </div>
 
-    <nav class="navigation">
-        <button class="nav-button" onclick="location.href='home.html'">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-text">Home</span>
-        </button>
-        <button class="nav-button" onclick="location.href='task.html'">
-            <span class="nav-icon">📋</span>
-            <span class="nav-text">Tasks</span>
-        </button>
-        <button class="nav-button" onclick="location.href='Friends.html'">
-            <span class="nav-icon">👥</span>
-            <span class="nav-text">Friends</span>
-        </button>
-        <button class="nav-button active">
-            <span class="nav-icon">🚀</span>
-            <span class="nav-text">Presale</span>
-        </button>
-        <button class="nav-button" onclick="location.href='wallet.html'">
-            <span class="nav-icon">💰</span>
-            <span class="nav-text">Wallet</span>
-        </button>
-    </nav>
-
-    <script>
-        document.querySelectorAll('.nav-button').forEach(button => {
-            button.addEventListener('click', function() {
-                this.style.animation = 'navPop 0.3s ease';
-                setTimeout(() => {
-                    this.style.animation = '';
-                }, 300);
-            });
-        });
-
-        // Enhanced TON wallet integration
-        document.querySelectorAll('.buy-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const tonUrl = this.getAttribute('href');
-                
-                // Try to open TON wallet directly
-                window.location.href = tonUrl;
-                
-                // Fallback mechanism - if TON wallet doesn't open after 1 second
-                setTimeout(() => {
-                    // Check if the user is still on the page
-                    if (document.visibilityState === 'visible') {
-                        // Alert the user that they might need to install the TON wallet
-                        if (confirm('TON wallet app not detected. Do you want to install the TON wallet?')) {
-                            // Redirect to TON wallet download page
-                            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                                window.location.href = 'https://apps.apple.com/app/ton-wallet/id1644368800';
-                            } else if (/Android/i.test(navigator.userAgent)) {
-                                window.location.href = 'https://play.google.com/store/apps/details?id=org.ton.wallet';
-                            } else {
-                                window.location.href = 'https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd';
-                            }
-                        }
-                    }
-                }, 1000);
-            });
-        });
-    </script>
 </body>
 </html>
