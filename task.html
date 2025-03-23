@@ -12,118 +12,145 @@
         }
 
         body {
-            background: url('https://assets.onecompiler.app/42t6e3qhm/4393bd3pv/1000154382.webp') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            color: #333;
         }
 
         .container {
             flex: 1;
             padding: 20px;
             max-width: 600px;
+            width: 100%;
             margin: 0 auto;
+            padding-bottom: 100px; /* Add space for fixed navbar */
         }
 
         .task-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
             padding: 15px;
             margin-bottom: 15px;
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #FF5722;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        /* Task card border colors */
+        .task-card:nth-child(1) {
+            border-left-color: #FF5722;
+        }
+        
+        .task-card:nth-child(2) {
+            border-left-color: #E91E63;
+        }
+        
+        .task-card:nth-child(3) {
+            border-left-color: #9C27B0;
+        }
+        
+        .task-card:nth-child(4) {
+            border-left-color: #673AB7;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
         .task-info {
             flex: 1;
+            min-width: 150px;
+            margin-bottom: 10px;
+        }
+
+        .task-buttons {
+            display: flex;
+            gap: 8px;
         }
 
         .task-title {
             font-weight: bold;
             margin-bottom: 5px;
+            font-size: 1.1em;
+            color: #333;
         }
 
         .reward {
-            color: #4CAF50;
+            color: #FF5722;
             font-size: 0.9em;
+            font-weight: bold;
+            display: inline-block;
+            background: rgba(255, 87, 34, 0.1);
+            padding: 2px 8px;
+            border-radius: 20px;
         }
 
         .follow-btn {
-            background: #1DA1F2;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 14px;
+            border-radius: 25px;
             cursor: pointer;
-            margin-right: 10px;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 114, 255, 0.2);
+            font-size: 0.9em;
         }
 
         .follow-btn:hover {
-            background: #1991db;
             transform: translateY(-2px);
-        }
-
-        .follow-btn:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .follow-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(-100%);
-        }
-
-        .follow-btn:not(:disabled):active::after {
-            transform: translateX(0);
-            transition: transform 0.2s ease-out;
+            box-shadow: 0 6px 8px rgba(0, 114, 255, 0.3);
         }
 
         .claim-btn {
-            background: #4CAF50;
+            background: linear-gradient(to right, #FF5722, #FF9800);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 14px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(255, 87, 34, 0.2);
+            font-size: 0.9em;
         }
 
         .claim-btn:hover {
-            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(255, 87, 34, 0.3);
         }
 
         .claim-btn:disabled {
-            background: #cccccc;
+            background: linear-gradient(to right, #cccccc, #adadad);
             cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
         }
 
         .verification-progress {
             width: 100%;
-            height: 4px;
+            height: 5px;
             background: #eee;
-            border-radius: 2px;
+            border-radius: 3px;
             margin-top: 8px;
             display: none;
+            overflow: hidden;
         }
 
         .progress-bar {
             width: 0%;
             height: 100%;
-            background: #4CAF50;
-            border-radius: 2px;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            border-radius: 3px;
             transition: width 5s linear;
         }
 
@@ -131,17 +158,52 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             display: flex;
             justify-content: space-around;
-            padding: 15px;
+            padding: 10px 5px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: 10;
         }
 
         .nav-button {
-            padding: 10px;
+            padding: 8px;
+            width: 60px;
+            height: 60px;
             border: none;
-            background: none;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1), -4px -4px 8px rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            gap: 4px;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+        }
+        
+        .nav-button.active {
+            background: linear-gradient(145deg, #FF5722, #FF9800);
+            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 1.5em;
+            margin-bottom: 2px;
+        }
+
+        .nav-text {
+            font-size: 0.7em;
+            font-weight: 500;
         }
 
         @keyframes checkmark {
@@ -151,45 +213,245 @@
         }
 
         .completed {
-            color: #4CAF50;
+            background: linear-gradient(to right, #43A047, #66BB6A) !important;
             animation: checkmark 0.5s ease-in-out;
         }
-
-        .daily-task-card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid #FF9800;
+        
+        /* Header section */
+        .header {
+            text-align: center;
+            padding: 20px 0 10px;
+            color: white;
         }
-
-        .daily-task-info {
-            flex: 1;
-        }
-
-        .daily-task-title {
-            font-weight: bold;
+        
+        .header h1 {
+            font-size: 1.6em;
             margin-bottom: 5px;
-            color: #FF9800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Reset info styling */
+        .reset-info {
+            text-align: center;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        /* Media queries for better responsiveness */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+                padding-bottom: 90px;
+            }
+            
+            .task-card {
+                padding: 12px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .task-buttons {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+            
+            .follow-btn, .claim-btn {
+                padding: 8px 12px;
+                font-size: 0.85em;
+                flex-grow: 1;
+                text-align: center;
+            }
+            
+            .nav-button {
+                width: 55px;
+                height: 55px;
+                padding: 6px;
+            }
+            
+            .nav-icon {
+                font-size: 1.4em;
+            }
+            
+            .nav-text {
+                font-size: 0.65em;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Daily reward card specific styling */
+        .daily-reward-card {
+            background: linear-gradient(135deg, #7b4397, #dc2430);
+            color: white;
+            border-left-color: #ffc107;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .daily-reward-card::before {
+            content: 'DAILY';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .daily-reward-card .task-title, 
+        .daily-reward-card .reward {
+            color: white;
+        }
+        
+        .daily-reward-card .reward {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .streak-counter {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .streak-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .streak-dot.active {
+            background: #ffc107;
+            box-shadow: 0 0 5px #ffc107;
+        }
+        
+        .claim-daily-btn {
+            background: linear-gradient(to right, #ffc107, #ff9800);
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .claim-daily-btn:hover {
+            background: linear-gradient(to right, #ffca28, #ffa726);
+        }
+        
+        .time-remaining {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        
+        .bonus-info {
+            font-size: 0.8rem;
+            margin-top: 3px;
+            opacity: 0.8;
+        }
+        
+        .day-reward-preview {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 5px;
+            gap: 3px;
+        }
+        
+        .day-reward {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            padding: 2px 5px;
+            font-size: 0.7rem;
+            position: relative;
+        }
+        
+        .day-reward.current {
+            background: rgba(255, 193, 7, 0.3);
+            font-weight: bold;
+        }
+        
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+        
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffc107;
+            opacity: 0;
+            animation: confetti 1.5s ease-out forwards;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>Complete Tasks</h1>
+        <p>Follow and earn JIO coins!</p>
+    </div>
+    
     <div class="container">
-        <div class="daily-task-card">
-            <div class="daily-task-info">
-                <div class="daily-task-title">Daily Login Reward</div>
+        <!-- New Daily Reward Task -->
+        <div class="task-card daily-reward-card">
+            <div class="task-info">
+                <div class="task-title">Daily Bonus Reward</div>
                 <div class="reward">Reward: 50 coins</div>
-                <div class="verification-progress">
-                    <div class="progress-bar"></div>
+                <div class="streak-counter">
+                    <div class="streak-dot" id="streak-1"></div>
+                    <div class="streak-dot" id="streak-2"></div>
+                    <div class="streak-dot" id="streak-3"></div>
+                    <div class="streak-dot" id="streak-4"></div>
+                    <div class="streak-dot" id="streak-5"></div>
+                    <div class="streak-dot" id="streak-6"></div>
+                    <div class="streak-dot" id="streak-7"></div>
+                    <span style="margin-left: 5px;" id="streak-text">Day 1</span>
                 </div>
+                <div class="bonus-info" id="streak-bonus">Streak bonus: +0%</div>
+                <div class="day-reward-preview">
+                    <div class="day-reward current">Day 1: 50</div>
+                    <div class="day-reward">Day 2: 55</div>
+                    <div class="day-reward">Day 3: 60</div>
+                    <div class="day-reward">Day 4: 65</div>
+                    <div class="day-reward">Day 5: 70</div>
+                    <div class="day-reward">Day 6: 75</div>
+                    <div class="day-reward">Day 7: 80</div>
+                </div>
+                <div class="time-remaining" id="daily-countdown"></div>
             </div>
-            <button class="claim-btn" id="dailyTaskBtn" onclick="claimDailyTask()">Claim</button>
+            <div class="task-buttons">
+                <button class="claim-btn claim-daily-btn" id="daily-claim-btn" onclick="claimDailyReward(this, 50)">Claim</button>
+            </div>
         </div>
-
+        
+        <!-- Existing Tasks -->
         <div class="task-card">
             <div class="task-info">
                 <div class="task-title">Follow on Twitter</div>
@@ -198,8 +460,10 @@
                     <div class="progress-bar"></div>
                 </div>
             </div>
-            <button class="follow-btn" onclick="startTask('twitter', 'https://twitter.com/jiomemecoin')">Follow</button>
-            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            <div class="task-buttons">
+                <button class="follow-btn" onclick="startTask('twitter', 'https://twitter.com/jiomemecoin')">Follow</button>
+                <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            </div>
         </div>
 
         <div class="task-card">
@@ -210,8 +474,10 @@
                     <div class="progress-bar"></div>
                 </div>
             </div>
-            <button class="follow-btn" onclick="startTask('instagram', 'https://instagram.com/jiomemecoin')">Follow</button>
-            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            <div class="task-buttons">
+                <button class="follow-btn" onclick="startTask('instagram', 'https://instagram.com/jiomemecoin')">Follow</button>
+                <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            </div>
         </div>
 
         <div class="task-card">
@@ -222,8 +488,10 @@
                     <div class="progress-bar"></div>
                 </div>
             </div>
-            <button class="follow-btn" onclick="startTask('telegram', 'https://t.me/jiomemecoinbot')">Join</button>
-            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            <div class="task-buttons">
+                <button class="follow-btn" onclick="startTask('telegram', 'https://t.me/jiomemecoin')">Join</button>
+                <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            </div>
         </div>
 
         <div class="task-card">
@@ -234,8 +502,10 @@
                     <div class="progress-bar"></div>
                 </div>
             </div>
-            <button class="follow-btn" onclick="startTask('youtube', 'https://youtube.com/@jiomemecoin')">Subscribe</button>
-            <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            <div class="task-buttons">
+                <button class="follow-btn" onclick="startTask('youtube', 'https://youtube.com/@jiomemecoin')">Subscribe</button>
+                <button class="claim-btn" disabled onclick="claimReward(this, 50)">Claim</button>
+            </div>
         </div>
     </div>
 
@@ -252,32 +522,225 @@
             <span class="nav-icon">👥</span>
             <span class="nav-text">Friends</span>
         </button>
+        <button class="nav-button" onclick="location.href='presale.html'">
+            <span class="nav-icon">🚀</span>
+            <span class="nav-text">Presale</span>
+        </button>
         <button class="nav-button" onclick="location.href='wallet.html'">
             <span class="nav-icon">💰</span>
             <span class="nav-text">Wallet</span>
-        </button>
-         <button class="nav-button active">
-            <span class="nav-icon">🚀</span>
-            <span class="nav-text">Presale</span>
         </button>
     </nav>
 
     <script>
         // Initialize balance from localStorage or parent window
         let balance = parseInt(localStorage.getItem('balance')) || 0;
+        let streakCount = parseInt(localStorage.getItem('streak_count')) || 0;
         
+        // Check if a new day has started for the daily reward
+        function checkDailyRewardStatus() {
+            const today = new Date().toDateString();
+            const lastClaimDate = localStorage.getItem('last_daily_claim');
+            
+            // Check if this is a new day compared to the last claim
+            if (lastClaimDate !== today) {
+                // Enable the daily claim button
+                const dailyClaimBtn = document.getElementById('daily-claim-btn');
+                if (dailyClaimBtn) {
+                    dailyClaimBtn.disabled = false;
+                    dailyClaimBtn.classList.remove('completed');
+                    dailyClaimBtn.textContent = 'Claim';
+                }
+                
+                // If the last claim was yesterday, increment streak
+                // If it was more than a day ago, reset streak
+                if (lastClaimDate) {
+                    const lastDate = new Date(lastClaimDate);
+                    const yesterdayDate = new Date();
+                    yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+                    
+                    if (lastDate.toDateString() === yesterdayDate.toDateString()) {
+                        // Consecutive day, increment streak (max 7)
+                        if (streakCount < 7) {
+                            streakCount++;
+                        }
+                    } else {
+                        // Broke the streak, reset to 0
+                        streakCount = 0;
+                    }
+                    localStorage.setItem('streak_count', streakCount);
+                }
+            } else {
+                // Already claimed today
+                const dailyClaimBtn = document.getElementById('daily-claim-btn');
+                if (dailyClaimBtn) {
+                    dailyClaimBtn.disabled = true;
+                    dailyClaimBtn.classList.add('completed');
+                    dailyClaimBtn.textContent = '✓ Claimed';
+                }
+            }
+            
+            // Update streak dots display
+            updateStreakDisplay();
+            
+            // Update countdown to next reset
+            updateDailyCountdown();
+            setInterval(updateDailyCountdown, 60000);
+        }
+        
+        function updateStreakDisplay() {
+            // Update streak dots
+            for (let i = 1; i <= 7; i++) {
+                const dot = document.getElementById(`streak-${i}`);
+                if (dot) {
+                    if (i <= streakCount) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                }
+            }
+            
+            // Update streak text
+            const streakText = document.getElementById('streak-text');
+            if (streakText) {
+                streakText.textContent = `Day ${streakCount + 1}`;
+            }
+            
+            // Update bonus info
+            const bonusInfo = document.getElementById('streak-bonus');
+            if (bonusInfo) {
+                const bonusPercent = streakCount * 10;
+                bonusInfo.textContent = `Streak bonus: +${bonusPercent}%`;
+            }
+            
+            // Update day reward highlights
+            const dayRewards = document.querySelectorAll('.day-reward');
+            dayRewards.forEach((day, index) => {
+                if (index === streakCount) {
+                    day.classList.add('current');
+                } else {
+                    day.classList.remove('current');
+                }
+            });
+        }
+        
+        function updateDailyCountdown() {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            
+            const timeUntilReset = tomorrow - now;
+            const hours = Math.floor(timeUntilReset / (1000 * 60 * 60));
+            const minutes = Math.floor((timeUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+            
+            const countdownEl = document.getElementById('daily-countdown');
+            if (countdownEl) {
+                countdownEl.textContent = `Next reset in ${hours}h ${minutes}m`;
+            }
+        }
+        
+        function claimDailyReward(button, baseAmount) {
+            // Check if already claimed today
+            const today = new Date().toDateString();
+            const lastClaimDate = localStorage.getItem('last_daily_claim');
+            
+            if (lastClaimDate === today) {
+                showRewardNotification("Already claimed today!", "warning");
+                return;
+            }
+            
+            // Calculate bonus based on streak
+            let bonusMultiplier = 1 + (streakCount * 0.1);  // 10% more for each day in streak
+            let totalAmount = Math.round(baseAmount * bonusMultiplier);
+            
+            // Update the streak count if needed
+            if (streakCount < 7) {
+                streakCount++;
+                localStorage.setItem('streak_count', streakCount);
+            }
+            
+            // Mark as claimed for today
+            localStorage.setItem('last_daily_claim', today);
+            
+            // Update balance
+            balance += totalAmount;
+            localStorage.setItem('balance', balance.toString());
+            
+            // Update button state
+            button.disabled = true;
+            button.textContent = '✓ Claimed';
+            button.classList.add('completed');
+            
+            // Show celebration effect
+            showConfetti();
+            
+            // Show notification with streak bonus
+            let message = `+${totalAmount} coins earned! 🎉`;
+            if (streakCount > 1) {
+                message += `\nStreak bonus: +${Math.round(baseAmount * (streakCount * 0.1) * 10)}%`;
+            }
+            showRewardNotification(message);
+            
+            // Update streak display
+            updateStreakDisplay();
+            
+            // Update balance display in home.html if it's open
+            try {
+                if (window.opener && !window.opener.closed) {
+                    const homeBalance = window.opener.document.getElementById('balance');
+                    if (homeBalance) {
+                        homeBalance.textContent = balance;
+                        window.opener.balance = balance;
+                    }
+                }
+            } catch (e) {
+                console.log('Could not update parent window balance');
+            }
+        }
+
+        function showConfetti() {
+            // Create confetti container if it doesn't exist
+            let confettiContainer = document.querySelector('.confetti-container');
+            if (!confettiContainer) {
+                confettiContainer = document.createElement('div');
+                confettiContainer.className = 'confetti-container';
+                document.body.appendChild(confettiContainer);
+            }
+            
+            // Create confetti pieces
+            const colors = ['#ffc107', '#ff9800', '#e91e63', '#9c27b0', '#3f51b5'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * 100 + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                confetti.style.animationDuration = Math.random() * 1 + 1 + 's';
+                
+                confettiContainer.appendChild(confetti);
+            }
+            
+            // Remove confetti after animation
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 3000);
+        }
+
         function startTask(platform, url) {
+            // Open social media link in new tab
+            window.open(url, '_blank');
+            
+            // Get the task card elements
             const taskCard = event.target.closest('.task-card');
-            const followBtn = taskCard.querySelector('.follow-btn');
             const progressContainer = taskCard.querySelector('.verification-progress');
             const progressBar = taskCard.querySelector('.progress-bar');
             const claimButton = taskCard.querySelector('.claim-btn');
-            
-            // Disable follow button immediately
-            followBtn.disabled = true;
-            
-            // Open social media link
-            window.open(url, '_blank');
             
             // Show and animate progress bar
             progressContainer.style.display = 'block';
@@ -288,22 +751,24 @@
                 progressBar.style.width = '100%';
             }, 100);
 
-            // Enable claim button after verification
+            // Enable claim button after 5 seconds
             setTimeout(() => {
                 claimButton.disabled = false;
                 progressContainer.style.display = 'none';
-                
-                // Update follow button
-                followBtn.style.background = '#cccccc';
-                followBtn.textContent = 'Followed ✓';
-                
-                // Save follow status
-                localStorage.setItem(`followed_${platform}`, 'true');
             }, 5000);
         }
 
         function claimReward(button, amount) {
             const taskCard = button.closest('.task-card');
+            const taskTitle = taskCard.querySelector('.task-title').textContent;
+            
+            // Check if task was already claimed (permanent)
+            const isTaskClaimed = localStorage.getItem(`task_claimed_${taskTitle}`);
+            
+            if (isTaskClaimed === 'true') {
+                showRewardNotification("Already claimed!", "warning");
+                return;
+            }
             
             // Disable the button and update text
             button.disabled = true;
@@ -313,6 +778,9 @@
             // Update balance
             balance += amount;
             localStorage.setItem('balance', balance.toString());
+            
+            // Mark task as permanently claimed
+            localStorage.setItem(`task_claimed_${taskTitle}`, 'true');
             
             // Update balance display in home.html if it's open
             try {
@@ -328,26 +796,24 @@
             }
             
             // Show reward notification
-            showRewardNotification(amount);
+            showRewardNotification(`+${amount} coins earned! 🎉`);
 
             // Disable follow button
             const followButton = taskCard.querySelector('.follow-btn');
             followButton.disabled = true;
             followButton.style.background = '#cccccc';
-            
-            // Save task completion status
-            localStorage.setItem(`task_${taskCard.querySelector('.task-title').textContent}`, 'completed');
         }
         
-        function showRewardNotification(amount) {
+        function showRewardNotification(message, type = "success") {
             // Create notification element
             const notification = document.createElement('div');
+            const bgColor = type === "success" ? "rgba(76, 175, 80, 0.9)" : "rgba(255, 152, 0, 0.9)";
             notification.style.cssText = `
                 position: fixed;
                 top: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                background: rgba(76, 175, 80, 0.9);
+                background: ${bgColor};
                 color: white;
                 padding: 15px 30px;
                 border-radius: 25px;
@@ -355,7 +821,7 @@
                 animation: slideDown 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
                 z-index: 1000;
             `;
-            notification.textContent = `+${amount} coins earned! 🎉`;
+            notification.textContent = message;
             document.body.appendChild(notification);
             
             // Remove notification after animation
@@ -379,10 +845,16 @@
         
         // Check and restore completed tasks on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const taskCards = document.querySelectorAll('.task-card');
+            // Check daily reward status
+            checkDailyRewardStatus();
+            
+            const taskCards = document.querySelectorAll('.task-card:not(.daily-reward-card)');
             taskCards.forEach(card => {
                 const taskTitle = card.querySelector('.task-title').textContent;
-                if (localStorage.getItem(`task_${taskTitle}`) === 'completed') {
+                const isTaskClaimed = localStorage.getItem(`task_claimed_${taskTitle}`);
+                
+                if (isTaskClaimed === 'true') {
+                    // Task has been permanently claimed
                     const claimBtn = card.querySelector('.claim-btn');
                     const followBtn = card.querySelector('.follow-btn');
                     
@@ -394,76 +866,19 @@
                     followBtn.style.background = '#cccccc';
                 }
             });
-
-            // Check follow status for each platform
-            const platforms = ['twitter', 'instagram', 'telegram', 'youtube'];
-            platforms.forEach(platform => {
-                if (localStorage.getItem(`followed_${platform}`) === 'true') {
-                    const taskCard = document.querySelector(`[onclick*="${platform}"]`).closest('.task-card');
-                    const followBtn = taskCard.querySelector('.follow-btn');
-                    const claimBtn = taskCard.querySelector('.claim-btn');
-                    
-                    followBtn.disabled = true;
-                    followBtn.style.background = '#cccccc';
-                    followBtn.textContent = 'Followed ✓';
-                    
-                    if (localStorage.getItem(`task_${taskCard.querySelector('.task-title').textContent}`) === 'completed') {
-                        claimBtn.disabled = true;
-                        claimBtn.textContent = '✓ Claimed';
-                        claimBtn.classList.add('completed');
-                    } else {
-                        claimBtn.disabled = false;
-                    }
-                }
-            });
+            
+            // Display welcome info
+            displayWelcomeInfo();
         });
-
-        function claimDailyTask() {
-            const lastClaim = localStorage.getItem('lastDailyTaskClaim');
-            const now = new Date();
+        
+        function displayWelcomeInfo() {
+            const infoElement = document.createElement('div');
+            infoElement.className = 'reset-info';
+            infoElement.textContent = `Complete tasks to earn JIO coins`;
             
-            if (lastClaim) {
-                const lastClaimDate = new Date(lastClaim);
-                const nextClaimDate = new Date(lastClaimDate);
-                nextClaimDate.setHours(24, 0, 0, 0);
-                
-                if (now < nextClaimDate) {
-                    alert('Come back tomorrow for your next daily reward!');
-                    return;
-                }
-            }
-            
-            // Update balance and save claim time
-            balance += 50;
-            localStorage.setItem('balance', balance.toString());
-            localStorage.setItem('lastDailyTaskClaim', now.toISOString());
-            
-            // Update UI
-            const button = document.getElementById('dailyTaskBtn');
-            button.disabled = true;
-            button.textContent = '✓ Claimed';
-            button.classList.add('completed');
-            
-            showRewardNotification(50);
+            const container = document.querySelector('.container');
+            container.insertAdjacentElement('afterbegin', infoElement);
         }
-
-        // Check daily task status on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            const lastClaim = localStorage.getItem('lastDailyTaskClaim');
-            if (lastClaim) {
-                const lastClaimDate = new Date(lastClaim);
-                const now = new Date();
-                const nextClaimDate = new Date(lastClaimDate);
-                nextClaimDate.setHours(24, 0, 0, 0);
-                
-                if (now < nextClaimDate) {
-                    const button = document.getElementById('dailyTaskBtn');
-                    button.disabled = true;
-                    button.textContent = '✓ Claimed';
-                    button.classList.add('completed');
-                }
-            }
-        });
     </script>
 </body>
 </html>
