@@ -1,359 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Pre-Sale</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0088cc;
-            --secondary: #00aaff;
-            --accent: #ff6b00;
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-            color: var(--dark);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeIn 1s ease-in-out;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .packages {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .package {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            width: 300px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            animation: slideUp 0.5s ease-in-out;
-            animation-fill-mode: both;
-        }
-        
-        .package:nth-child(1) { animation-delay: 0.2s; border-top: 5px solid #4e54c8; }
-        .package:nth-child(2) { animation-delay: 0.4s; border-top: 5px solid #f27121; }
-        .package:nth-child(3) { animation-delay: 0.6s; border-top: 5px solid #11998e; }
-        
-        .package:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        
-        .package-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-            text-align: center;
-        }
-        
-        .package-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin: 1.5rem 0;
-            color: var(--primary);
-        }
-        
-        .package-price span {
-            font-size: 1rem;
-            color: #666;
-        }
-        
-        .package-coins {
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--accent);
-            font-weight: 600;
-        }
-        
-        .buy-button {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 50px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-        }
-        
-        .buy-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
-        }
-        
-        .ton-logo {
-            text-align: center;
-            margin-top: 1rem;
-        }
-        
-        .ton-logo img {
-            height: 30px;
-            vertical-align: middle;
-        }
-        
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f00;
-            border-radius: 50%;
-            opacity: 0;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        .progress-bar {
-            height: 5px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            margin: 2rem 0;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            width: 30%;
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            flex: 1;
-            margin: 0 0.5rem;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        @media (max-width: 768px) {
-            .packages {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .stats {
-                flex-direction: column;
-            }
-            
-            .stat-item {
-                margin: 0.5rem 0;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JioMimeCoin Pre-Sale</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #1e1e2f, #12121a);
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }header {
+  padding: 20px;
+  text-align: center;
+  background: #00f0ff;
+  color: black;
+  font-size: 2em;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { background-color: #00f0ff; }
+  50% { background-color: #007f99; }
+  100% { background-color: #00f0ff; }
+}
+
+.container {
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.tier {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #00f0ff;
+  border-radius: 20px;
+  padding: 20px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 0 15px #00f0ff60;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.tier h2 {
+  margin-bottom: 10px;
+}
+
+.buy-btn {
+  background: linear-gradient(90deg, #00f0ff, #007f99);
+  border: none;
+  color: black;
+  padding: 12px 24px;
+  font-size: 1.1em;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  font-weight: bold;
+}
+
+.buy-btn:hover {
+  transform: scale(1.1);
+}
+
+.footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Token Pre-Sale</h1>
-            <p class="subtitle">Join our early supporters and get bonus tokens during the pre-sale period. Payments accepted in TON only.</p>
-            
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-value">1,250,000</div>
-                    <div class="stat-label">Tokens Sold</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">2,500,000</div>
-                    <div class="stat-label">Total Supply</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">50%</div>
-                    <div class="stat-label">Progress</div>
-                </div>
-            </div>
-        </header>
-        
-        <div class="packages">
-            <div class="package">
-                <h2 class="package-title">Starter Pack</h2>
-                <div class="package-price">1 TON</div>
-                <div class="package-coins">2,000 Tokens</div>
-                <a href="ton://transfer/YOUR_ADMIN_WALLET_ADDRESS?amount=1000000000&text=Pre-Sale%20Starter%20Pack" class="buy-button pulse">Buy Now</a>
-                <div class="ton-logo">
-                    <img src="https://ton.org/download/ton_symbol.svg" alt="TON">
-                </div>
-            </div>
-            
-            <div class="package">
-                <h2 class="package-title">Premium Pack</h2>
-                <div class="package-price">2 TON</div>
-                <div class="package-coins">3,009 Tokens</div>
-                <a href="ton://transfer/YOUR_ADMIN_WALLET_ADDRESS?amount=2000000000&text=Pre-Sale%20Premium%20Pack" class="buy-button pulse">Buy Now</a>
-                <div class="ton-logo">
-                    <img src="https://ton.org/download/ton_symbol.svg" alt="TON">
-                </div>
-            </div>
-            
-            <div class="package">
-                <h2 class="package-title">Pro Pack</h2>
-                <div class="package-price">5 TON</div>
-                <div class="package-coins">4,000 Tokens</div>
-                <a href="ton://transfer/YOUR_ADMIN_WALLET_ADDRESS?amount=5000000000&text=Pre-Sale%20Pro%20Pack" class="buy-button pulse">Buy Now</a>
-                <div class="ton-logo">
-                    <img src="https://ton.org/download/ton_symbol.svg" alt="TON">
-                </div>
-            </div>
-        </div>
-    </div>
+  <header>JioMimeCoin Pre-Sale</header>
+  <div class="container">
+    <div class="tier">
+      <h2>1 TON = 2,000 JioMime</h2>
+      <button class="buy-btn" onclick="buyTON(1)">Buy Now</button>
+    </div><div class="tier">
+  <h2>2 TON = 3,000 JioMime</h2>
+  <button class="buy-btn" onclick="buyTON(2)">Buy Now</button>
+</div>
 
-    <script>
-        // Simple confetti animation
-        document.querySelectorAll('.buy-button').forEach(button => {
-            button.addEventListener('click', function(e) {
-                // In a real implementation, you would handle the TON payment here
-                // This is just for visual feedback
-                createConfetti(e.target);
-            });
-        });
-        
-        function createConfetti(element) {
-            const rect = element.getBoundingClientRect();
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-            
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.left = (rect.left + rect.width / 2) + 'px';
-                confetti.style.top = (rect.top) + 'px';
-                document.body.appendChild(confetti);
-                
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = 5 + Math.random() * 5;
-                const x = Math.cos(angle) * velocity;
-                const y = Math.sin(angle) * velocity;
-                
-                let posX = rect.left + rect.width / 2;
-                let posY = rect.top;
-                let opacity = 1;
-                
-                const animate = () => {
-                    posX += x;
-                    posY += y + 0.5; // Add gravity
-                    opacity -= 0.02;
-                    
-                    confetti.style.left = posX + 'px';
-                    confetti.style.top = posY + 'px';
-                    confetti.style.opacity = opacity;
-                    
-                    if (opacity > 0) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        confetti.remove();
-                    }
-                };
-                
-                requestAnimationFrame(animate);
-            }
-        }
-        
-        // Simulate progress increase (in a real app, this would come from your backend)
-        setTimeout(() => {
-            document.querySelector('.progress').style.width = '65%';
-            document.querySelector('.stat-value').textContent = '1,625,000';
-            document.querySelectorAll('.stat-value')[2].textContent = '65%';
-        }, 2000);
-    </script>
-</body>
+<div class="tier">
+  <h2>5 TON = 4,000 JioMime</h2>
+  <button class="buy-btn" onclick="buyTON(5)">Buy Now</button>
+</div>
+
+  </div>  <div class="footer">
+    Payments are verified automatically. JioMimeCoin will be credited manually after confirmation.
+  </div>  <script>
+    function buyTON(amount) {
+      const walletAddress = "UQASqD_AMYomxXvmrrxnMKEtCHlLnVu9shye0KC6_Gk-kaAo";
+      const url = `https://app.tonkeeper.com/transfer/${walletAddress}?amount=${amount}&text=JioMimeCoin%20PreSale%20${amount}TON`;
+      window.open(url, '_blank');
+
+      // Simulate verification animation (placeholder)
+      alert("Transaction initiated. Waiting for TON network verification...");
+    }
+  </script></body>
 </html>
